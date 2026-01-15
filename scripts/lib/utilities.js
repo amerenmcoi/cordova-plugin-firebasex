@@ -64,14 +64,15 @@ Utilities.writeJsonToXmlFile = function(jsonObj, filepath, parseOpts){
  * Used to get the name of the application from the xcodeCordovaProj directory path.
  * The xcodeCordovaProj directory path is defined in the locations property of the Cordova-iOS platform's API.
  */
-Utilities.getAppName = function(){
-    context = context || {};
-    context.opts = context.opts || {};
-    context.opts.projectRoot =
-    context.opts.projectRoot || context.opts.root || process.cwd();
+Utilities.getAppName = function(ctx){
+    ctx = ctx || {};
+    ctx.opts = ctx.opts || {};
+    ctx.opts.projectRoot =
+    ctx.opts.projectRoot || ctx.opts.root || process.cwd();
 
     if(_context.opts.cordova.platforms.indexOf('ios') !== -1){
-        const projectRoot = _context.opts.projectRoot;
+        const projectRoot =
+            (ctx && ctx.opts && (ctx.opts.projectRoot || ctx.opts.root)) || process.cwd();
         const platformPath = path.join(projectRoot, 'platforms', 'ios');
         const cordova_ios = require('cordova-ios');
         const iosProject = new cordova_ios('ios', platformPath);
