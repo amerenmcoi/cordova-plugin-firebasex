@@ -161,6 +161,23 @@ module.exports = function(context){
 
         if(podFileModified){
             utilities.log('Updating installed Pods');
+            const fs = require('fs');
+            const path = require('path');
+
+            const podfilePath = path.join(context.opts.projectRoot, 'platforms/ios/Podfile');
+
+            if (fs.existsSync(podfilePath)) {
+                let podfile = fs.readFileSync(podfilePath, 'utf8');
+
+                podfile = podfile.replace(
+                    /platform :ios, '.*'/,
+                    "platform :ios, '13.0'"
+                );
+
+                fs.writeFileSync(podfilePath, podfile);
+            }
+
+
             execSync('pod install', {
                 cwd: path.resolve(PLATFORM.IOS.platformDir),
                 encoding: 'utf8'
