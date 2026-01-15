@@ -171,7 +171,7 @@ module.exports = function(context){
 
                 podfile = podfile.replace(
                     /platform :ios, '.*'/,
-                    "platform :ios, '13.0'"
+                    "platform :ios, '14.0'"
                 );
 
                 fs.writeFileSync(podfilePath, podfile);
