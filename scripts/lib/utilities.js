@@ -64,24 +64,29 @@ Utilities.writeJsonToXmlFile = function(jsonObj, filepath, parseOpts){
  * Used to get the name of the application from the xcodeCordovaProj directory path.
  * The xcodeCordovaProj directory path is defined in the locations property of the Cordova-iOS platform's API.
  */
-Utilities.getAppName = function(ctx){
+ Utilities.getAppName = function (ctx) {
     ctx = ctx || {};
     ctx.opts = ctx.opts || {};
-    ctx.opts.projectRoot =
-    ctx.opts.projectRoot || ctx.opts.root || process.cwd();
-
-    if(_context.opts.cordova.platforms.indexOf('ios') !== -1){
-        const projectRoot =
-            (ctx && ctx.opts && (ctx.opts.projectRoot || ctx.opts.root)) || process.cwd();
-        const platformPath = path.join(projectRoot, 'platforms', 'ios');
-        const cordova_ios = require('cordova-ios');
-        const iosProject = new cordova_ios('ios', platformPath);
-
-        return path.basename(iosProject.locations.xcodeCordovaProj);
+    ctx.opts.projectRoot = ctx.opts.projectRoot || ctx.opts.root || process.cwd();
+  
+    const platforms =
+      (ctx.opts.cordova && Array.isArray(ctx.opts.cordova.platforms) && ctx.opts.cordova.platforms) ||
+      [];
+  
+    if (platforms.indexOf("ios") !== -1) {
+      const projectRoot = ctx.opts.projectRoot;
+      const platformPath = path.join(projectRoot, "platforms", "ios");
+  
+      const cordova_ios = require("cordova-ios");
+      const iosProject = new cordova_ios("ios", platformPath);
+  
+      return path.basename(iosProject.locations.xcodeCordovaProj);
     }
+  
     // other platforms
     return Utilities.parseConfigXml().widget.name._text.toString().trim();
-};
+  };
+  
 
 /**
  * The ID of the plugin; this should match the ID in plugin.xml.
