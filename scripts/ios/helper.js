@@ -10,15 +10,17 @@ var plist = require('plist');
  */
 // var comment = "\"Crashlytics\"";
 
-// var versionRegex = /\d+\.\d+\.\d+[^'"]*/,
-//     firebasePodRegex = /pod 'Firebase([^']+)', '(\d+\.\d+\.\d+[^'"]*)'/g,
-//     inAppMessagingPodRegEx = /pod 'FirebaseInAppMessaging', '(\d+\.\d+\.\d+[^'"]*)'/,
-//     standardFirestorePodRegEx = /pod 'FirebaseFirestore', '(\d+\.\d+\.\d+[^'"]*)'/,
-//     googleSignInPodRegEx = /pod 'GoogleSignIn', '(\d+\.\d+\.\d+[^'"]*)'/,
-//     googleTagManagerPodRegEx = /pod 'GoogleTagManager', '(\d+\.\d+\.\d+[^'"]*)'/,
-//     prebuiltFirestorePodRegEx = /pod 'FirebaseFirestore', :tag => '(\d+\.\d+\.\d+[^'"]*)', :git => 'https:\/\/github.com\/invertase\/firestore-ios-sdk-frameworks.git'/,
-//     prebuiltFirestorePodTemplate = "pod 'FirebaseFirestore', :tag => '{version}', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git'",
-//     iosDeploymentTargetPodRegEx = /platform :ios, '(\d+\.\d+\.?\d*)'/;
+var versionRegex = /\d+\.\d+\.\d+[^'"]*/,
+    firebasePodRegex = /pod 'Firebase([^']+)', '(\d+\.\d+\.\d+[^'"]*)'/g,
+    inAppMessagingPodRegEx = /pod 'FirebaseInAppMessaging', '(\d+\.\d+\.\d+[^'"]*)'/,
+    standardFirestorePodRegEx = /pod 'FirebaseFirestore', '(\d+\.\d+\.\d+[^'"]*)'/,
+    googleSignInPodRegEx = /pod 'GoogleSignIn', '(\d+\.\d+\.\d+[^'"]*)'/,
+    googleTagManagerPodRegEx = /pod 'GoogleTagManager', '(\d+\.\d+\.\d+[^'"]*)'/,
+    prebuiltFirestorePodRegEx = /pod 'FirebaseFirestore', :tag => '(\d+\.\d+\.\d+[^'"]*)', :git => 'https:\/\/github.com\/invertase\/firestore-ios-sdk-frameworks.git'/,
+    prebuiltFirestorePodTemplate = "pod 'FirebaseFirestore', :tag => '{version}', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git'",
+    // Matches: platform :ios, '14.0'  OR  platform :ios, '12.3.0'
+    iosDeploymentTargetPodRegEx = /platform\s*:ios,\s*'(\d+\.\d+(?:\.\d+)?)'/;
+
 
 // Internal functions
 function ensureUrlSchemeInPlist(urlScheme, appPlist){
