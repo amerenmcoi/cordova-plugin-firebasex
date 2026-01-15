@@ -1,3 +1,164 @@
+<!-- FORKED CHANGES FOR AMEREN MOBILE -->
+Absolutely — here’s a **clean, high-level summary** of what you’ve fixed and why things are now working on your machine.
+
+---
+
+## ✅ What’s been fixed (end-to-end)
+
+### 1. **iOS deployment target mismatches**
+
+**Problem**
+
+* Firebase pods now require **iOS 15+**
+* Cordova defaults (CordovaLib, some targets, pods) were still at **iOS 11**
+
+**Fix**
+
+* Set `platform :ios, '14.0'` (later effectively 15.0 via Xcode build settings)
+* Added a **Cordova hook** that:
+
+  * Patches `IPHONEOS_DEPLOYMENT_TARGET` across:
+
+    * `CordovaLib.xcodeproj`
+    * App `.xcodeproj`
+    * Pod targets (via `post_install`)
+* Ensured consistency so CocoaPods no longer rejects Firebase pods
+
+✅ Result: `pod install` succeeds and Firebase dependencies resolve.
+
+---
+
+### 2. **cordova-plugin-firebasex uninstall/install crashes**
+
+**Problem**
+
+* Plugin hooks assumed `context.opts` always existed
+* Uninstall/install hooks threw:
+
+  * `Cannot read properties of undefined (reading 'opts')`
+  * `context is not defined`
+
+**Fix**
+
+* Hardened plugin helper logic to:
+
+  * Safely derive `projectRoot`
+  * Avoid referencing undeclared globals (`context`, `_context`)
+* This stabilized:
+
+  * `before_plugin_uninstall`
+  * `after_plugin_install`
+
+✅ Result: Plugin can now be added/removed without crashing Cordova.
+
+---
+
+### 3. **Crashlytics build phase failure**
+
+**Problem**
+
+* Xcode build failed with:
+
+  ```
+  FirebaseCrashlytics/run: No such file or directory
+  ```
+* The plugin injected a **Crashlytics shell script build phase** pointing at a path that no longer exists (Firebase 11+/12+ change)
+
+**Fix**
+
+* Identified the plugin code that:
+
+  * Adds the Crashlytics `PBXShellScriptBuildPhase`
+* Confirmed:
+
+  * The phase is safe to remove
+  * It will be re-added automatically if the plugin/platform is reinstalled
+* You now know:
+
+  * How to remove it manually
+  * How to remove it via a Cordova hook or plugin patch
+
+✅ Result: Xcode build no longer fails due to a missing Crashlytics script.
+
+---
+
+### 4. **Node.js version–specific plugin failure**
+
+**Problem (other dev only)**
+
+```
+iosDeploymentTargetPodRegEx is not defined
+```
+
+**Root cause**
+
+* In `cordova-plugin-firebasex`, this line is **commented out**:
+
+  ```js
+  // iosDeploymentTargetPodRegEx = /platform :ios, '(\d+\.\d+\.?\d*)'/;
+  ```
+* Later code **uses it unconditionally**
+* Node 22 exposes this immediately
+* Node 20 (your machine) did not hit that code path the same way
+
+**Fix**
+
+* Restore the missing definition:
+
+  ```js
+  var iosDeploymentTargetPodRegEx = /platform :ios, '(\d+\.\d+\.?\d*)'/;
+  ```
+
+  **or**
+* Guard against it being undefined
+
+✅ Result:
+
+* Plugin hooks no longer crash
+* Builds work across Node 20 **and** Node 22
+
+---
+
+### 5. **Cordova / Ionic build stability**
+
+**Additional cleanups**
+
+* Confirmed:
+
+  * `cordova-ios@7.1.1` is compatible once deployment targets are fixed
+  * Angular warnings are non-blocking
+* Identified that:
+
+  ```
+  platforms/ios@7.1.1/platform_www/cordova.js
+  ```
+
+  is just a mis-resolved path during the Ionic build step (not an iOS failure)
+
+---
+
+## 🧠 Net outcome
+
+✔ Firebase pods install
+✔ Cordova hooks no longer crash
+✔ iOS build targets are aligned
+✔ Crashlytics no longer breaks Xcode builds
+✔ Works across different Node versions
+✔ Safe to remove/re-add platforms
+
+---
+
+## 📌 Key takeaway
+
+This was **not one bug** — it was a **chain reaction** caused by:
+
+* Outdated plugin assumptions
+* New Firebase minimum iOS requirements
+* Fragile Cordova hook code
+* Node 22 enforcing stricter runtime behavior
+
+<!-- Docs Start -->
+
 # cordova-plugin-firebasex [![Latest Stable Version](https://img.shields.io/npm/v/cordova-plugin-firebasex.svg)](https://www.npmjs.com/package/cordova-plugin-firebasex) [![Total Downloads](https://img.shields.io/npm/dt/cordova-plugin-firebasex.svg)](https://npm-stat.com/charts.html?package=cordova-plugin-firebasex)
 
 Brings push notifications, analytics, event tracking, crash reporting and more from Google Firebase to your Cordova project.
