@@ -14,7 +14,7 @@ Absolutely — here’s a **clean, high-level summary** of what you’ve fixed a
 
 **Fix**
 
-* Set `platform :ios, '14.0'` (later effectively 15.0 via Xcode build settings)
+* Set `platform :ios, '15.0'` (later effectively 15.0 via Xcode build settings)
 * Added a **Cordova hook** that:
 
   * Patches `IPHONEOS_DEPLOYMENT_TARGET` across:
