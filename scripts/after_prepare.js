@@ -161,7 +161,7 @@ module.exports = function(context){
 
         if(podFileModified){
             utilities.log('Updating installed Pods');
-            execSync('pod install --repo-update', {
+            execSync('pod install', {
                 cwd: path.resolve(PLATFORM.IOS.platformDir),
                 encoding: 'utf8'
             });
