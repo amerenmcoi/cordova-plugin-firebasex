@@ -8,17 +8,17 @@ var plist = require('plist');
  * This is used as the display text for the build phase block in XCode as well as the
  * inline comments inside of the .pbxproj file for the build script phase block.
  */
-var comment = "\"Crashlytics\"";
+// var comment = "\"Crashlytics\"";
 
-var versionRegex = /\d+\.\d+\.\d+[^'"]*/,
-    firebasePodRegex = /pod 'Firebase([^']+)', '(\d+\.\d+\.\d+[^'"]*)'/g,
-    inAppMessagingPodRegEx = /pod 'FirebaseInAppMessaging', '(\d+\.\d+\.\d+[^'"]*)'/,
-    standardFirestorePodRegEx = /pod 'FirebaseFirestore', '(\d+\.\d+\.\d+[^'"]*)'/,
-    googleSignInPodRegEx = /pod 'GoogleSignIn', '(\d+\.\d+\.\d+[^'"]*)'/,
-    googleTagManagerPodRegEx = /pod 'GoogleTagManager', '(\d+\.\d+\.\d+[^'"]*)'/,
-    prebuiltFirestorePodRegEx = /pod 'FirebaseFirestore', :tag => '(\d+\.\d+\.\d+[^'"]*)', :git => 'https:\/\/github.com\/invertase\/firestore-ios-sdk-frameworks.git'/,
-    prebuiltFirestorePodTemplate = "pod 'FirebaseFirestore', :tag => '{version}', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git'",
-    iosDeploymentTargetPodRegEx = /platform :ios, '(\d+\.\d+\.?\d*)'/;
+// var versionRegex = /\d+\.\d+\.\d+[^'"]*/,
+//     firebasePodRegex = /pod 'Firebase([^']+)', '(\d+\.\d+\.\d+[^'"]*)'/g,
+//     inAppMessagingPodRegEx = /pod 'FirebaseInAppMessaging', '(\d+\.\d+\.\d+[^'"]*)'/,
+//     standardFirestorePodRegEx = /pod 'FirebaseFirestore', '(\d+\.\d+\.\d+[^'"]*)'/,
+//     googleSignInPodRegEx = /pod 'GoogleSignIn', '(\d+\.\d+\.\d+[^'"]*)'/,
+//     googleTagManagerPodRegEx = /pod 'GoogleTagManager', '(\d+\.\d+\.\d+[^'"]*)'/,
+//     prebuiltFirestorePodRegEx = /pod 'FirebaseFirestore', :tag => '(\d+\.\d+\.\d+[^'"]*)', :git => 'https:\/\/github.com\/invertase\/firestore-ios-sdk-frameworks.git'/,
+//     prebuiltFirestorePodTemplate = "pod 'FirebaseFirestore', :tag => '{version}', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git'",
+//     iosDeploymentTargetPodRegEx = /platform :ios, '(\d+\.\d+\.?\d*)'/;
 
 // Internal functions
 function ensureUrlSchemeInPlist(urlScheme, appPlist){
@@ -73,62 +73,63 @@ module.exports = {
      * (dSYMs) so that Crashlytics can display stack trace information in it's web console.
      */
     addShellScriptBuildPhase: function (context, xcodeProjectPath) {
+      // Crashlytics build phase disabled in this fork.
+        return;
+        // // Read and parse the XCode project (.pxbproj) from disk.
+        // // File format information: http://www.monobjc.net/xcode-project-file-format.html
+        // var xcodeProject = xcode.project(xcodeProjectPath);
+        // xcodeProject.parseSync();
 
-        // Read and parse the XCode project (.pxbproj) from disk.
-        // File format information: http://www.monobjc.net/xcode-project-file-format.html
-        var xcodeProject = xcode.project(xcodeProjectPath);
-        xcodeProject.parseSync();
+        // // Build the body of the script to be executed during the build phase.
+        // var script = '"' + '\\"${PODS_ROOT}/FirebaseCrashlytics/run\\"' + '"';
 
-        // Build the body of the script to be executed during the build phase.
-        var script = '"' + '\\"${PODS_ROOT}/FirebaseCrashlytics/run\\"' + '"';
+        // // Generate a unique ID for our new build phase.
+        // var id = xcodeProject.generateUuid();
+        // // Create the build phase.
+        // if (!xcodeProject.hash.project.objects.PBXShellScriptBuildPhase) {
+        //     xcodeProject.hash.project.objects.PBXShellScriptBuildPhase = {};
+        // }
 
-        // Generate a unique ID for our new build phase.
-        var id = xcodeProject.generateUuid();
-        // Create the build phase.
-        if (!xcodeProject.hash.project.objects.PBXShellScriptBuildPhase) {
-            xcodeProject.hash.project.objects.PBXShellScriptBuildPhase = {};
-        }
+        // xcodeProject.hash.project.objects.PBXShellScriptBuildPhase[id] = {
+        //     isa: "PBXShellScriptBuildPhase",
+        //     buildActionMask: 2147483647,
+        //     files: [],
+        //     inputPaths: [
+        //         '"' + '${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}' + '"',
+        //         '"' + '${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}' + '"',
+        //         '"' + '${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist' + '"',
+        //         '"' + '$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist' + '"',
+        //         '"' + '$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)' + '"',
+        //     ],
+        //     name: comment,
+        //     outputPaths: [],
+        //     runOnlyForDeploymentPostprocessing: 0,
+        //     shellPath: "/bin/sh",
+        //     shellScript: script,
+        //     showEnvVarsInLog: 0
+        // };
 
-        xcodeProject.hash.project.objects.PBXShellScriptBuildPhase[id] = {
-            isa: "PBXShellScriptBuildPhase",
-            buildActionMask: 2147483647,
-            files: [],
-            inputPaths: [
-                '"' + '${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}' + '"',
-                '"' + '${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}' + '"',
-                '"' + '${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist' + '"',
-                '"' + '$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist' + '"',
-                '"' + '$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)' + '"',
-            ],
-            name: comment,
-            outputPaths: [],
-            runOnlyForDeploymentPostprocessing: 0,
-            shellPath: "/bin/sh",
-            shellScript: script,
-            showEnvVarsInLog: 0
-        };
+        // // Add a comment to the block (viewable in the source of the pbxproj file).
+        // xcodeProject.hash.project.objects.PBXShellScriptBuildPhase[id + "_comment"] = comment;
 
-        // Add a comment to the block (viewable in the source of the pbxproj file).
-        xcodeProject.hash.project.objects.PBXShellScriptBuildPhase[id + "_comment"] = comment;
+        // // Add this new shell script build phase block to the targets.
+        // for (var nativeTargetId in xcodeProject.hash.project.objects.PBXNativeTarget) {
 
-        // Add this new shell script build phase block to the targets.
-        for (var nativeTargetId in xcodeProject.hash.project.objects.PBXNativeTarget) {
+        //     // Skip over the comment blocks.
+        //     if (nativeTargetId.indexOf("_comment") !== -1) {
+        //         continue;
+        //     }
 
-            // Skip over the comment blocks.
-            if (nativeTargetId.indexOf("_comment") !== -1) {
-                continue;
-            }
+        //     var nativeTarget = xcodeProject.hash.project.objects.PBXNativeTarget[nativeTargetId];
 
-            var nativeTarget = xcodeProject.hash.project.objects.PBXNativeTarget[nativeTargetId];
+        //     nativeTarget.buildPhases.push({
+        //         value: id,
+        //         comment: comment
+        //     });
+        // }
 
-            nativeTarget.buildPhases.push({
-                value: id,
-                comment: comment
-            });
-        }
-
-        // Finally, write the .pbxproj back out to disk.
-        fs.writeFileSync(path.resolve(xcodeProjectPath), xcodeProject.writeSync());
+        // // Finally, write the .pbxproj back out to disk.
+        // fs.writeFileSync(path.resolve(xcodeProjectPath), xcodeProject.writeSync());
     },
 
     /**
