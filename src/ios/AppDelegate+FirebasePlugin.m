@@ -5,7 +5,7 @@
 
 
 @import UserNotifications;
-@import FirebaseFirestore;
+// @import FirebaseFirestore;
 
 // Implement UNUserNotificationCenterDelegate to receive display notification via APNS for devices running iOS 10 and above.
 // Implement FIRMessagingDelegate to receive data message via FCM for devices running iOS 10 and above.
@@ -24,11 +24,11 @@ static AppDelegate* instance;
 
 static NSDictionary* mutableUserInfo;
 
-static FIRAuthStateDidChangeListenerHandle authStateChangeListener;
-static bool authStateChangeListenerInitialized = false;
+// static FIRAuthStateDidChangeListenerHandle authStateChangeListener;
+// static bool authStateChangeListenerInitialized = false;
 
-static FIRIDTokenDidChangeListenerHandle authIdTokenChangeListener;
-static NSString* currentIdToken = @"";
+// static FIRIDTokenDidChangeListenerHandle authIdTokenChangeListener;
+// static NSString* currentIdToken = @"";
 
 static __weak id <UNUserNotificationCenterDelegate> _prevUserNotificationCenterDelegate = nil;
 
@@ -97,48 +97,48 @@ static __weak id <UNUserNotificationCenterDelegate> _prevUserNotificationCenterD
         }
     
         // Setup Firestore
-        [FirebasePlugin setFirestore:[FIRFirestore firestore]];
+        // [FirebasePlugin setFirestore:[FIRFirestore firestore]];
         
-        authStateChangeListener = [[FIRAuth auth] addAuthStateDidChangeListener:^(FIRAuth * _Nonnull auth, FIRUser * _Nullable user) {
-            @try {
-                if(!authStateChangeListenerInitialized){
-                    authStateChangeListenerInitialized = true;
-                }else{
-                    [FirebasePlugin.firebasePlugin executeGlobalJavascript:[NSString stringWithFormat:@"FirebasePlugin._onAuthStateChange(%@)", (user != nil ? @"true": @"false")]];
-                }
-            }@catch (NSException *exception) {
-                [FirebasePlugin.firebasePlugin handlePluginExceptionWithoutContext:exception];
-            }
-        }];
+        // authStateChangeListener = [[FIRAuth auth] addAuthStateDidChangeListener:^(FIRAuth * _Nonnull auth, FIRUser * _Nullable user) {
+        //     @try {
+        //         if(!authStateChangeListenerInitialized){
+        //             authStateChangeListenerInitialized = true;
+        //         }else{
+        //             [FirebasePlugin.firebasePlugin executeGlobalJavascript:[NSString stringWithFormat:@"FirebasePlugin._onAuthStateChange(%@)", (user != nil ? @"true": @"false")]];
+        //         }
+        //     }@catch (NSException *exception) {
+        //         [FirebasePlugin.firebasePlugin handlePluginExceptionWithoutContext:exception];
+        //     }
+        // }];
         
-        authIdTokenChangeListener = [[FIRAuth auth] addIDTokenDidChangeListener:^(FIRAuth * _Nonnull auth, FIRUser * _Nullable user) {
-            @try {
-                if(![FIRAuth auth].currentUser){
-                    [FirebasePlugin.firebasePlugin executeGlobalJavascript:@"FirebasePlugin._onAuthIdTokenChange()"];
-                    return;
-                }
-                FIRUser* user = [FIRAuth auth].currentUser;
-                [user getIDTokenWithCompletion:^(NSString * _Nullable token, NSError * _Nullable error) {
-                    if(error == nil){
+        // authIdTokenChangeListener = [[FIRAuth auth] addIDTokenDidChangeListener:^(FIRAuth * _Nonnull auth, FIRUser * _Nullable user) {
+        //     @try {
+        //         if(![FIRAuth auth].currentUser){
+        //             [FirebasePlugin.firebasePlugin executeGlobalJavascript:@"FirebasePlugin._onAuthIdTokenChange()"];
+        //             return;
+        //         }
+        //         FIRUser* user = [FIRAuth auth].currentUser;
+        //         [user getIDTokenWithCompletion:^(NSString * _Nullable token, NSError * _Nullable error) {
+        //             if(error == nil){
                         
                         
-                        if([token isEqualToString:currentIdToken]) return;;
-                        currentIdToken = token;
-                        [user getIDTokenResultWithCompletion:^(FIRAuthTokenResult * _Nullable tokenResult, NSError * _Nullable error) {
-                            if(error == nil){
-                                [FirebasePlugin.firebasePlugin executeGlobalJavascript:[NSString stringWithFormat:@"FirebasePlugin._onAuthIdTokenChange({\"idToken\": \"%@\", \"providerId\": \"%@\"})", token, tokenResult.signInProvider]];
-                            }else{
-                                [FirebasePlugin.firebasePlugin executeGlobalJavascript:[NSString stringWithFormat:@"FirebasePlugin._onAuthIdTokenChange({\"idToken\": \"%@\"})", token]];
-                            }
-                        }];
-                    }else{
-                        [FirebasePlugin.firebasePlugin executeGlobalJavascript:@"FirebasePlugin._onAuthIdTokenChange()"];
-                    }
-                }];
-            }@catch (NSException *exception) {
-                [FirebasePlugin.firebasePlugin executeGlobalJavascript:@"FirebasePlugin._onAuthIdTokenChange()"];
-            }
-        }];
+        //                 if([token isEqualToString:currentIdToken]) return;;
+        //                 currentIdToken = token;
+        //                 [user getIDTokenResultWithCompletion:^(FIRAuthTokenResult * _Nullable tokenResult, NSError * _Nullable error) {
+        //                     if(error == nil){
+        //                         [FirebasePlugin.firebasePlugin executeGlobalJavascript:[NSString stringWithFormat:@"FirebasePlugin._onAuthIdTokenChange({\"idToken\": \"%@\", \"providerId\": \"%@\"})", token, tokenResult.signInProvider]];
+        //                     }else{
+        //                         [FirebasePlugin.firebasePlugin executeGlobalJavascript:[NSString stringWithFormat:@"FirebasePlugin._onAuthIdTokenChange({\"idToken\": \"%@\"})", token]];
+        //                     }
+        //                 }];
+        //             }else{
+        //                 [FirebasePlugin.firebasePlugin executeGlobalJavascript:@"FirebasePlugin._onAuthIdTokenChange()"];
+        //             }
+        //         }];
+        //     }@catch (NSException *exception) {
+        //         [FirebasePlugin.firebasePlugin executeGlobalJavascript:@"FirebasePlugin._onAuthIdTokenChange()"];
+        //     }
+        // }];
 
         self.applicationInBackground = @(YES);
         
@@ -491,87 +491,87 @@ static __weak id <UNUserNotificationCenterDelegate> _prevUserNotificationCenterD
 
 
 // Apple Sign In
-- (void)authorizationController:(ASAuthorizationController *)controller
-   didCompleteWithAuthorization:(ASAuthorization *)authorization API_AVAILABLE(ios(13.0)) {
-    @try{
-        CDVPluginResult* pluginResult;
-        NSString* errorMessage = nil;
-        FIROAuthCredential *credential;
+// - (void)authorizationController:(ASAuthorizationController *)controller
+//    didCompleteWithAuthorization:(ASAuthorization *)authorization API_AVAILABLE(ios(13.0)) {
+//     @try{
+//         CDVPluginResult* pluginResult;
+//         NSString* errorMessage = nil;
+//         FIROAuthCredential *credential;
         
-        if ([authorization.credential isKindOfClass:[ASAuthorizationAppleIDCredential class]]) {
-            ASAuthorizationAppleIDCredential *appleIDCredential = authorization.credential;
-            NSString *rawNonce = [FirebasePlugin appleSignInNonce];
-            if(rawNonce == nil){
-                errorMessage = @"Invalid state: A login callback was received, but no login request was sent.";
-            }else if (appleIDCredential.identityToken == nil) {
-                errorMessage = @"Unable to fetch identity token.";
-            }else{
-                NSString *idToken = [[NSString alloc] initWithData:appleIDCredential.identityToken
-                                                          encoding:NSUTF8StringEncoding];
-                if (idToken == nil) {
-                    errorMessage = [NSString stringWithFormat:@"Unable to serialize id token from data: %@", appleIDCredential.identityToken];
-                }else{
-                    // Initialize a Firebase credential.
-                    credential = [FIROAuthProvider credentialWithProviderID:@"apple.com"
-                        IDToken:idToken
-                        rawNonce:rawNonce];
+//         if ([authorization.credential isKindOfClass:[ASAuthorizationAppleIDCredential class]]) {
+//             ASAuthorizationAppleIDCredential *appleIDCredential = authorization.credential;
+//             NSString *rawNonce = [FirebasePlugin appleSignInNonce];
+//             if(rawNonce == nil){
+//                 errorMessage = @"Invalid state: A login callback was received, but no login request was sent.";
+//             }else if (appleIDCredential.identityToken == nil) {
+//                 errorMessage = @"Unable to fetch identity token.";
+//             }else{
+//                 NSString *idToken = [[NSString alloc] initWithData:appleIDCredential.identityToken
+//                                                           encoding:NSUTF8StringEncoding];
+//                 if (idToken == nil) {
+//                     errorMessage = [NSString stringWithFormat:@"Unable to serialize id token from data: %@", appleIDCredential.identityToken];
+//                 }else{
+//                     // Initialize a Firebase credential.
+//                     credential = [FIROAuthProvider credentialWithProviderID:@"apple.com"
+//                         IDToken:idToken
+//                         rawNonce:rawNonce];
                     
-                    NSNumber* key = [[FirebasePlugin firebasePlugin] saveAuthCredential:credential];
-                    NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
-                    [result setValue:@"true" forKey:@"instantVerification"];
-                    [result setValue:key forKey:@"id"];
-                    [result setValue:idToken forKey:@"idToken"];
-                    [result setValue:rawNonce forKey:@"rawNonce"];
+//                     NSNumber* key = [[FirebasePlugin firebasePlugin] saveAuthCredential:credential];
+//                     NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
+//                     [result setValue:@"true" forKey:@"instantVerification"];
+//                     [result setValue:key forKey:@"id"];
+//                     [result setValue:idToken forKey:@"idToken"];
+//                     [result setValue:rawNonce forKey:@"rawNonce"];
 
-                    if(appleIDCredential.fullName != nil){
-                        if(appleIDCredential.fullName.givenName != nil){
-                            [result setValue:appleIDCredential.fullName.givenName forKey:@"givenName"];
-                        }
-                        if(appleIDCredential.fullName.familyName != nil){
-                            [result setValue:appleIDCredential.fullName.familyName forKey:@"familyName"];
-                        }
-                    }
-                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
-                }
-            }
-            if(errorMessage != nil){
-                [FirebasePlugin.firebasePlugin _logError:errorMessage];
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
-            }
-            if ([FirebasePlugin firebasePlugin].appleSignInCallbackId != nil) {
-                [[FirebasePlugin firebasePlugin].commandDelegate sendPluginResult:pluginResult callbackId:[FirebasePlugin firebasePlugin].appleSignInCallbackId];
-            }
-        }
-    }@catch (NSException *exception) {
-        [FirebasePlugin.firebasePlugin handlePluginExceptionWithoutContext:exception];
-    }
-}
+//                     if(appleIDCredential.fullName != nil){
+//                         if(appleIDCredential.fullName.givenName != nil){
+//                             [result setValue:appleIDCredential.fullName.givenName forKey:@"givenName"];
+//                         }
+//                         if(appleIDCredential.fullName.familyName != nil){
+//                             [result setValue:appleIDCredential.fullName.familyName forKey:@"familyName"];
+//                         }
+//                     }
+//                     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
+//                 }
+//             }
+//             if(errorMessage != nil){
+//                 [FirebasePlugin.firebasePlugin _logError:errorMessage];
+//                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+//             }
+//             if ([FirebasePlugin firebasePlugin].appleSignInCallbackId != nil) {
+//                 [[FirebasePlugin firebasePlugin].commandDelegate sendPluginResult:pluginResult callbackId:[FirebasePlugin firebasePlugin].appleSignInCallbackId];
+//             }
+//         }
+//     }@catch (NSException *exception) {
+//         [FirebasePlugin.firebasePlugin handlePluginExceptionWithoutContext:exception];
+//     }
+// }
 
-- (void)authorizationController:(ASAuthorizationController *)controller
-           didCompleteWithError:(NSError *)error API_AVAILABLE(ios(13.0)) {
-    NSString* errorMessage = [NSString stringWithFormat:@"Sign in with Apple errored: %@", error];
-    [FirebasePlugin.firebasePlugin _logError:errorMessage];
-    if ([FirebasePlugin firebasePlugin].appleSignInCallbackId != nil) {
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
-        [[FirebasePlugin firebasePlugin].commandDelegate sendPluginResult:pluginResult callbackId:[FirebasePlugin firebasePlugin].appleSignInCallbackId];
-    }
-}
+// - (void)authorizationController:(ASAuthorizationController *)controller
+//            didCompleteWithError:(NSError *)error API_AVAILABLE(ios(13.0)) {
+//     NSString* errorMessage = [NSString stringWithFormat:@"Sign in with Apple errored: %@", error];
+//     [FirebasePlugin.firebasePlugin _logError:errorMessage];
+//     if ([FirebasePlugin firebasePlugin].appleSignInCallbackId != nil) {
+//         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+//         [[FirebasePlugin firebasePlugin].commandDelegate sendPluginResult:pluginResult callbackId:[FirebasePlugin firebasePlugin].appleSignInCallbackId];
+//     }
+// }
 
-- (nonnull ASPresentationAnchor)presentationAnchorForAuthorizationController:(nonnull ASAuthorizationController *)controller  API_AVAILABLE(ios(13.0)){
-    return self.viewController.view.window;
-}
+// - (nonnull ASPresentationAnchor)presentationAnchorForAuthorizationController:(nonnull ASAuthorizationController *)controller  API_AVAILABLE(ios(13.0)){
+//     return self.viewController.view.window;
+// }
 
-- (bool) isContentAvailable:(NSDictionary*) userInfo {
-    if(userInfo == nil) {
-        return false;
-    }
+// - (bool) isContentAvailable:(NSDictionary*) userInfo {
+//     if(userInfo == nil) {
+//         return false;
+//     }
 
-    NSDictionary* aps = [userInfo objectForKey:@"aps"];
-    if(aps == nil){
-        return false;
-    }
+//     NSDictionary* aps = [userInfo objectForKey:@"aps"];
+//     if(aps == nil){
+//         return false;
+//     }
     
-    return ([aps objectForKey:@"'content-available'"] != nil && [[aps objectForKey:@"'content-available'"] isEqualToNumber:[NSNumber numberWithInt:1]])
-        || ([aps objectForKey:@"content-available"] != nil && [[aps objectForKey:@"content-available"] isEqualToNumber:[NSNumber numberWithInt:1]]);
-}
+//     return ([aps objectForKey:@"'content-available'"] != nil && [[aps objectForKey:@"'content-available'"] isEqualToNumber:[NSNumber numberWithInt:1]])
+//         || ([aps objectForKey:@"content-available"] != nil && [[aps objectForKey:@"content-available"] isEqualToNumber:[NSNumber numberWithInt:1]]);
+// }
 @end

@@ -42,16 +42,16 @@ static BOOL pluginInitialized = NO;
 static BOOL registeredForRemoteNotifications = NO;
 static BOOL openSettingsEmitted = NO;
 static BOOL immediateMessagePayloadDelivery = NO;
-static NSMutableDictionary* authCredentials;
+// static NSMutableDictionary* authCredentials;
 static NSString* currentNonce; // used for Apple Sign In
-static FIRFirestore* firestore;
+// static FIRFirestore* firestore;
 static NSUserDefaults* preferences;
 static NSDictionary* googlePlist;
-static NSMutableDictionary* firestoreListeners;
-static NSString* currentInstallationId;
+// static NSMutableDictionary* firestoreListeners;
+// static NSString* currentInstallationId;
 static NSMutableDictionary* traces;
-static FIRMultiFactorResolver* multiFactorResolver;
-static FIROAuthProvider* oauthProvider;
+// static FIRMultiFactorResolver* multiFactorResolver;
+// static FIROAuthProvider* oauthProvider;
 static NSMutableArray* pendingGlobalJS = nil;
 
 
@@ -63,15 +63,15 @@ static NSMutableArray* pendingGlobalJS = nil;
     return currentNonce;
 }
 
-+ (void) setFirestore:(FIRFirestore*) firestoreInstance{
-    firestore = firestoreInstance;
-}
+// + (void) setFirestore:(FIRFirestore*) firestoreInstance{
+//     firestore = firestoreInstance;
+// }
 
-- (void)applicationLaunchedWithUrl:(NSNotification*)notification
-{
-    NSURL* url = [notification object];
-    [[GIDSignIn sharedInstance] handleURL:url];
-}
+// - (void)applicationLaunchedWithUrl:(NSNotification*)notification
+// {
+//     NSURL* url = [notification object];
+//     [[GIDSignIn sharedInstance] handleURL:url];
+// }
 
 // @override abstract
 - (void)pluginInitialize {
@@ -132,8 +132,8 @@ static NSMutableArray* pendingGlobalJS = nil;
             [self _hasPermission:^(BOOL result) {}];
         }
 
-        authCredentials = [[NSMutableDictionary alloc] init];
-        firestoreListeners = [[NSMutableDictionary alloc] init];
+        // authCredentials = [[NSMutableDictionary alloc] init];
+        // firestoreListeners = [[NSMutableDictionary alloc] init];
         traces = [[NSMutableDictionary alloc] init];
 
         pluginInitialized = YES;
@@ -209,10 +209,10 @@ static NSMutableArray* pendingGlobalJS = nil;
 }
 
 // @override abstract
-- (void)handleOpenURL:(NSNotification*)notification{
-    NSURL* url = [notification object];
-    [GIDSignIn.sharedInstance handleURL:url];
-}
+// - (void)handleOpenURL:(NSNotification*)notification{
+//     NSURL* url = [notification object];
+//     [GIDSignIn.sharedInstance handleURL:url];
+// }
 
 /*************************************************/
 #pragma mark - plugin API
@@ -257,431 +257,431 @@ static NSMutableArray* pendingGlobalJS = nil;
  * Remote notifications
  */
 
-// - (void)getId:(CDVInvokedUrlCommand *)command {
-//     [self getInstallationId:command];
-// }
+- (void)getId:(CDVInvokedUrlCommand *)command {
+    [self getInstallationId:command];
+}
 
-// - (void)getToken:(CDVInvokedUrlCommand *)command {
-//     [self _getToken:^(NSString *token, NSError *error) {
-//         [self handleStringResultWithPotentialError:error command:command result:token];
-//     }];
-// }
+- (void)getToken:(CDVInvokedUrlCommand *)command {
+    [self _getToken:^(NSString *token, NSError *error) {
+        [self handleStringResultWithPotentialError:error command:command result:token];
+    }];
+}
 
-// -(void)_getToken:(void (^)(NSString *token, NSError *error))completeBlock {
-//     @try {
-//         [[FIRMessaging messaging] tokenWithCompletion:^(NSString *token, NSError *error) {
-//             @try {
-//                 completeBlock(token, error);
-//             }@catch (NSException *exception) {
-//                 [self handlePluginExceptionWithoutContext:exception];
-//             }
-//         }];
-//     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithoutContext:exception];
-//     }
-// }
+-(void)_getToken:(void (^)(NSString *token, NSError *error))completeBlock {
+    @try {
+        [[FIRMessaging messaging] tokenWithCompletion:^(NSString *token, NSError *error) {
+            @try {
+                completeBlock(token, error);
+            }@catch (NSException *exception) {
+                [self handlePluginExceptionWithoutContext:exception];
+            }
+        }];
+    }@catch (NSException *exception) {
+        [self handlePluginExceptionWithoutContext:exception];
+    }
+}
 
-// - (void)getAPNSToken:(CDVInvokedUrlCommand *)command {
-//     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[self getAPNSToken]];
-//     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-// }
+- (void)getAPNSToken:(CDVInvokedUrlCommand *)command {
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[self getAPNSToken]];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
 
-// - (NSString *)getAPNSToken {
-//     NSString* hexToken = nil;
-//     NSData* apnsToken = [FIRMessaging messaging].APNSToken;
-//     if (apnsToken) {
-// #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
-//         // [deviceToken description] Starting with iOS 13 device token is like "{length = 32, bytes = 0xd3d997af 967d1f43 b405374a 13394d2f ... 28f10282 14af515f }"
-//         hexToken = [self hexadecimalStringFromData:apnsToken];
-// #else
-//         hexToken = [[apnsToken.description componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet]invertedSet]]componentsJoinedByString:@""];
-// #endif
-//     }
-//     return hexToken;
-// }
+- (NSString *)getAPNSToken {
+    NSString* hexToken = nil;
+    NSData* apnsToken = [FIRMessaging messaging].APNSToken;
+    if (apnsToken) {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
+        // [deviceToken description] Starting with iOS 13 device token is like "{length = 32, bytes = 0xd3d997af 967d1f43 b405374a 13394d2f ... 28f10282 14af515f }"
+        hexToken = [self hexadecimalStringFromData:apnsToken];
+#else
+        hexToken = [[apnsToken.description componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet]invertedSet]]componentsJoinedByString:@""];
+#endif
+    }
+    return hexToken;
+}
 
-// - (NSString *)hexadecimalStringFromData:(NSData *)data
-// {
-//     NSUInteger dataLength = data.length;
-//     if (dataLength == 0) {
-//         return nil;
-//     }
+- (NSString *)hexadecimalStringFromData:(NSData *)data
+{
+    NSUInteger dataLength = data.length;
+    if (dataLength == 0) {
+        return nil;
+    }
 
-//     const unsigned char *dataBuffer = data.bytes;
-//     NSMutableString *hexString  = [NSMutableString stringWithCapacity:(dataLength * 2)];
-//     for (int i = 0; i < dataLength; ++i) {
-//         [hexString appendFormat:@"%02x", dataBuffer[i]];
-//     }
-//     return [hexString copy];
-// }
+    const unsigned char *dataBuffer = data.bytes;
+    NSMutableString *hexString  = [NSMutableString stringWithCapacity:(dataLength * 2)];
+    for (int i = 0; i < dataLength; ++i) {
+        [hexString appendFormat:@"%02x", dataBuffer[i]];
+    }
+    return [hexString copy];
+}
 
-// - (void)hasPermission:(CDVInvokedUrlCommand *)command {
-//     @try {
-//         [self _hasPermission:^(BOOL enabled) {
-//             CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
-//             [self.commandDelegate sendPluginResult:commandResult callbackId:command.callbackId];
-//         }];
-//     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithContext:exception :command];
-//     }
-// }
+- (void)hasPermission:(CDVInvokedUrlCommand *)command {
+    @try {
+        [self _hasPermission:^(BOOL enabled) {
+            CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
+            [self.commandDelegate sendPluginResult:commandResult callbackId:command.callbackId];
+        }];
+    }@catch (NSException *exception) {
+        [self handlePluginExceptionWithContext:exception :command];
+    }
+}
 
-// -(void)_hasPermission:(void (^)(BOOL result))completeBlock {
-//     @try {
-//         [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
-//             @try {
-//                 BOOL enabled = NO;
-//                 if (settings.alertSetting == UNNotificationSettingEnabled) {
-//                     enabled = YES;
-//                     [self registerForRemoteNotifications];
-//                 }
-//                 NSLog(@"_hasPermission: %@", enabled ? @"YES" : @"NO");
-//                 completeBlock(enabled);
-//             }@catch (NSException *exception) {
-//                 [self handlePluginExceptionWithoutContext:exception];
-//             }
-//         }];
-//     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithoutContext:exception];
-//     }
-// }
+-(void)_hasPermission:(void (^)(BOOL result))completeBlock {
+    @try {
+        [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+            @try {
+                BOOL enabled = NO;
+                if (settings.alertSetting == UNNotificationSettingEnabled) {
+                    enabled = YES;
+                    [self registerForRemoteNotifications];
+                }
+                NSLog(@"_hasPermission: %@", enabled ? @"YES" : @"NO");
+                completeBlock(enabled);
+            }@catch (NSException *exception) {
+                [self handlePluginExceptionWithoutContext:exception];
+            }
+        }];
+    }@catch (NSException *exception) {
+        [self handlePluginExceptionWithoutContext:exception];
+    }
+}
 
-// - (void)grantPermission:(CDVInvokedUrlCommand *)command {
-//     NSLog(@"grantPermission");
-//     @try {
-//         [self _hasPermission:^(BOOL enabled) {
-//             @try {
-//                 if(enabled){
-//                     NSString* message = @"Permission is already granted - call hasPermission() to check before calling grantPermission()";
-//                     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:message];
-//                     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-//                 }else{
-//                     [UNUserNotificationCenter currentNotificationCenter].delegate = (id<UNUserNotificationCenterDelegate> _Nullable) self;
-//                     BOOL requestWithProvidesAppNotificationSettings = [[command argumentAtIndex:0] boolValue];
-//                     UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert|UNAuthorizationOptionSound|UNAuthorizationOptionBadge;
-//                     if (@available(iOS 12.0, *)) {
-//                         if(requestWithProvidesAppNotificationSettings) {
-//                             authOptions = authOptions|UNAuthorizationOptionProvidesAppNotificationSettings;
-//                         }
-//                     }
+- (void)grantPermission:(CDVInvokedUrlCommand *)command {
+    NSLog(@"grantPermission");
+    @try {
+        [self _hasPermission:^(BOOL enabled) {
+            @try {
+                if(enabled){
+                    NSString* message = @"Permission is already granted - call hasPermission() to check before calling grantPermission()";
+                    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:message];
+                    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+                }else{
+                    [UNUserNotificationCenter currentNotificationCenter].delegate = (id<UNUserNotificationCenterDelegate> _Nullable) self;
+                    BOOL requestWithProvidesAppNotificationSettings = [[command argumentAtIndex:0] boolValue];
+                    UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert|UNAuthorizationOptionSound|UNAuthorizationOptionBadge;
+                    if (@available(iOS 12.0, *)) {
+                        if(requestWithProvidesAppNotificationSettings) {
+                            authOptions = authOptions|UNAuthorizationOptionProvidesAppNotificationSettings;
+                        }
+                    }
 
-//                     [[UNUserNotificationCenter currentNotificationCenter]
-//                      requestAuthorizationWithOptions:authOptions
-//                      completionHandler:^(BOOL granted, NSError * _Nullable error) {
-//                         @try {
-//                             NSLog(@"requestAuthorizationWithOptions: granted=%@", granted ? @"YES" : @"NO");
-//                             if (error == nil && granted) {
-//                                 [UNUserNotificationCenter currentNotificationCenter].delegate = AppDelegate.instance;
-//                                 [self registerForRemoteNotifications];
-//                             }
-//                             [self handleBoolResultWithPotentialError:error command:command result:granted];
+                    [[UNUserNotificationCenter currentNotificationCenter]
+                     requestAuthorizationWithOptions:authOptions
+                     completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                        @try {
+                            NSLog(@"requestAuthorizationWithOptions: granted=%@", granted ? @"YES" : @"NO");
+                            if (error == nil && granted) {
+                                [UNUserNotificationCenter currentNotificationCenter].delegate = AppDelegate.instance;
+                                [self registerForRemoteNotifications];
+                            }
+                            [self handleBoolResultWithPotentialError:error command:command result:granted];
 
-//                         }@catch (NSException *exception) {
-//                             [self handlePluginExceptionWithContext:exception :command];
-//                         }
-//                     }
-//                      ];
-//                 }
-//             }@catch (NSException *exception) {
-//                 [self handlePluginExceptionWithContext:exception :command];
-//             }
-//         }];
-//     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithContext:exception :command];
-//     }
-// }
+                        }@catch (NSException *exception) {
+                            [self handlePluginExceptionWithContext:exception :command];
+                        }
+                    }
+                     ];
+                }
+            }@catch (NSException *exception) {
+                [self handlePluginExceptionWithContext:exception :command];
+            }
+        }];
+    }@catch (NSException *exception) {
+        [self handlePluginExceptionWithContext:exception :command];
+    }
+}
 
-// - (void)hasCriticalPermission:(CDVInvokedUrlCommand *)command {
-//     @try {
-//         [self _hasCriticalPermission:^(BOOL enabled) {
-//             CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
-//             [self.commandDelegate sendPluginResult:commandResult callbackId:command.callbackId];
-//         }];
-//     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithContext:exception :command];
-//     }
-// }
+- (void)hasCriticalPermission:(CDVInvokedUrlCommand *)command {
+    @try {
+        [self _hasCriticalPermission:^(BOOL enabled) {
+            CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
+            [self.commandDelegate sendPluginResult:commandResult callbackId:command.callbackId];
+        }];
+    }@catch (NSException *exception) {
+        [self handlePluginExceptionWithContext:exception :command];
+    }
+}
 
-// - (void)_hasCriticalPermission:(void (^)(BOOL result))completeBlock {
-//     @try {
-//         if (@available(iOS 12.0, *)) {
-//             [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
-//                 @try {
-//                     BOOL enabled = NO;
-//                     if (settings.criticalAlertSetting == UNNotificationSettingEnabled) {
-//                         enabled = YES;
-//                         [self registerForRemoteNotifications];
-//                     }
-//                     NSLog(@"_hasCriticalPermission: %@", enabled ? @"YES" : @"NO");
-//                     completeBlock(enabled);
-//                 }@catch (NSException *exception) {
-//                     [self handlePluginExceptionWithoutContext:exception];
-//                 }
-//             }];
-//         }else{
-//             completeBlock(NO);
-//         }
-//     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithoutContext:exception];
-//     }
-// }
+- (void)_hasCriticalPermission:(void (^)(BOOL result))completeBlock {
+    @try {
+        if (@available(iOS 12.0, *)) {
+            [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+                @try {
+                    BOOL enabled = NO;
+                    if (settings.criticalAlertSetting == UNNotificationSettingEnabled) {
+                        enabled = YES;
+                        [self registerForRemoteNotifications];
+                    }
+                    NSLog(@"_hasCriticalPermission: %@", enabled ? @"YES" : @"NO");
+                    completeBlock(enabled);
+                }@catch (NSException *exception) {
+                    [self handlePluginExceptionWithoutContext:exception];
+                }
+            }];
+        }else{
+            completeBlock(NO);
+        }
+    }@catch (NSException *exception) {
+        [self handlePluginExceptionWithoutContext:exception];
+    }
+}
 
-// - (void)grantCriticalPermission:(CDVInvokedUrlCommand *)command {
-//     NSLog(@"grantCriticalPermission");
-//     @try {
-//         if (@available(iOS 12.0, *)) {
-//             [self _hasCriticalPermission:^(BOOL enabled) {
-//                 @try {
-//                     if(enabled){
-//                         NSString* message = @"Critical permission is already granted - call hasCriticalPermission() to check before calling grantCriticalPermission()";
-//                         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:message];
-//                         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-//                     }else{
-//                         [UNUserNotificationCenter currentNotificationCenter].delegate = (id<UNUserNotificationCenterDelegate> _Nullable) self;
-//                         UNAuthorizationOptions authOptions = UNAuthorizationOptionCriticalAlert;
+- (void)grantCriticalPermission:(CDVInvokedUrlCommand *)command {
+    NSLog(@"grantCriticalPermission");
+    @try {
+        if (@available(iOS 12.0, *)) {
+            [self _hasCriticalPermission:^(BOOL enabled) {
+                @try {
+                    if(enabled){
+                        NSString* message = @"Critical permission is already granted - call hasCriticalPermission() to check before calling grantCriticalPermission()";
+                        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:message];
+                        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+                    }else{
+                        [UNUserNotificationCenter currentNotificationCenter].delegate = (id<UNUserNotificationCenterDelegate> _Nullable) self;
+                        UNAuthorizationOptions authOptions = UNAuthorizationOptionCriticalAlert;
 
-//                         [[UNUserNotificationCenter currentNotificationCenter]
-//                          requestAuthorizationWithOptions:authOptions
-//                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
-//                             @try {
-//                                 NSLog(@"requestAuthorizationWithOptions: granted=%@", granted ? @"YES" : @"NO");
-//                                 [self handleBoolResultWithPotentialError:error command:command result:granted];
-//                             }@catch (NSException *exception) {
-//                                 [self handlePluginExceptionWithContext:exception :command];
-//                             }
-//                         }];
-//                     }
-//                 }@catch (NSException *exception) {
-//                     [self handlePluginExceptionWithContext:exception :command];
-//                 }
-//             }];
-//         } else {
-//             [self handleBoolResultWithPotentialError:nil command:command result:false];
-//         }
-//     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithContext:exception :command];
-//     }
-// }
+                        [[UNUserNotificationCenter currentNotificationCenter]
+                         requestAuthorizationWithOptions:authOptions
+                         completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                            @try {
+                                NSLog(@"requestAuthorizationWithOptions: granted=%@", granted ? @"YES" : @"NO");
+                                [self handleBoolResultWithPotentialError:error command:command result:granted];
+                            }@catch (NSException *exception) {
+                                [self handlePluginExceptionWithContext:exception :command];
+                            }
+                        }];
+                    }
+                }@catch (NSException *exception) {
+                    [self handlePluginExceptionWithContext:exception :command];
+                }
+            }];
+        } else {
+            [self handleBoolResultWithPotentialError:nil command:command result:false];
+        }
+    }@catch (NSException *exception) {
+        [self handlePluginExceptionWithContext:exception :command];
+    }
+}
 
-// - (void)registerForRemoteNotifications {
-//     NSLog(@"registerForRemoteNotifications");
+- (void)registerForRemoteNotifications {
+    NSLog(@"registerForRemoteNotifications");
 
-//     if(registeredForRemoteNotifications) return;
+    if(registeredForRemoteNotifications) return;
 
-//     [self runOnMainThread:^{
-//         @try {
-//             [[UIApplication sharedApplication] registerForRemoteNotifications];
-//         }@catch (NSException *exception) {
-//             [self handlePluginExceptionWithoutContext:exception];
-//         }
-//         registeredForRemoteNotifications = YES;
-//     }];
-// }
+    [self runOnMainThread:^{
+        @try {
+            [[UIApplication sharedApplication] registerForRemoteNotifications];
+        }@catch (NSException *exception) {
+            [self handlePluginExceptionWithoutContext:exception];
+        }
+        registeredForRemoteNotifications = YES;
+    }];
+}
 
-// - (void)setBadgeNumber:(CDVInvokedUrlCommand *)command {
-//     @try {
-//         int number = [[command.arguments objectAtIndex:0] intValue];
-//         [self runOnMainThread:^{
-//             @try {
-//                 [[UIApplication sharedApplication] setApplicationIconBadgeNumber:number];
-//                 CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-//                 [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-//             }@catch (NSException *exception) {
-//                 [self handlePluginExceptionWithContext:exception :command];
-//             }
-//         }];
-//     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithContext:exception :command];
-//     }
-// }
+- (void)setBadgeNumber:(CDVInvokedUrlCommand *)command {
+    @try {
+        int number = [[command.arguments objectAtIndex:0] intValue];
+        [self runOnMainThread:^{
+            @try {
+                [[UIApplication sharedApplication] setApplicationIconBadgeNumber:number];
+                CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            }@catch (NSException *exception) {
+                [self handlePluginExceptionWithContext:exception :command];
+            }
+        }];
+    }@catch (NSException *exception) {
+        [self handlePluginExceptionWithContext:exception :command];
+    }
+}
 
-// - (void)getBadgeNumber:(CDVInvokedUrlCommand *)command {
-//     [self runOnMainThread:^{
-//         @try {
-//             long badge = [[UIApplication sharedApplication] applicationIconBadgeNumber];
+- (void)getBadgeNumber:(CDVInvokedUrlCommand *)command {
+    [self runOnMainThread:^{
+        @try {
+            long badge = [[UIApplication sharedApplication] applicationIconBadgeNumber];
 
-//             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:badge];
-//             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-//         }@catch (NSException *exception) {
-//             [self handlePluginExceptionWithContext:exception :command];
-//         }
-//     }];
-// }
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:badge];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }@catch (NSException *exception) {
+            [self handlePluginExceptionWithContext:exception :command];
+        }
+    }];
+}
 
-// - (void)subscribe:(CDVInvokedUrlCommand *)command {
-//     @try {
-//         NSString* topic = [NSString stringWithFormat:@"%@", [command.arguments objectAtIndex:0]];
+- (void)subscribe:(CDVInvokedUrlCommand *)command {
+    @try {
+        NSString* topic = [NSString stringWithFormat:@"%@", [command.arguments objectAtIndex:0]];
 
-//         [[FIRMessaging messaging] subscribeToTopic: topic completion:^(NSError * _Nullable error) {
-//             [self handleEmptyResultWithPotentialError:error command:command];
-//         }];
+        [[FIRMessaging messaging] subscribeToTopic: topic completion:^(NSError * _Nullable error) {
+            [self handleEmptyResultWithPotentialError:error command:command];
+        }];
 
-//         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-//         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-//     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithContext:exception :command];
-//     }
-// }
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }@catch (NSException *exception) {
+        [self handlePluginExceptionWithContext:exception :command];
+    }
+}
 
-// - (void)unsubscribe:(CDVInvokedUrlCommand *)command {
-//     @try {
-//         NSString* topic = [NSString stringWithFormat:@"%@", [command.arguments objectAtIndex:0]];
+- (void)unsubscribe:(CDVInvokedUrlCommand *)command {
+    @try {
+        NSString* topic = [NSString stringWithFormat:@"%@", [command.arguments objectAtIndex:0]];
 
-//         [[FIRMessaging messaging] unsubscribeFromTopic: topic completion:^(NSError * _Nullable error) {
-//             [self handleEmptyResultWithPotentialError:error command:command];
-//         }];
+        [[FIRMessaging messaging] unsubscribeFromTopic: topic completion:^(NSError * _Nullable error) {
+            [self handleEmptyResultWithPotentialError:error command:command];
+        }];
 
-//         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-//         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-//     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithContext:exception :command];
-//     }
-// }
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }@catch (NSException *exception) {
+        [self handlePluginExceptionWithContext:exception :command];
+    }
+}
 
-// - (void)unregister:(CDVInvokedUrlCommand *)command {
-//     @try {
-//         __block NSError* error = nil;
-//         [[FIRMessaging messaging] deleteTokenWithCompletion:^(NSError * _Nullable deleteTokenError) {
-//             if(error == nil && deleteTokenError != nil) error = deleteTokenError;
-//             if([FIRMessaging messaging].isAutoInitEnabled){
-//                 [self _getToken:^(NSString* token, NSError* getError) {
-//                     if(error == nil && getError != nil) error = getError;
-//                     [self handleEmptyResultWithPotentialError:error command:command];
-//                 }];
-//             }else{
-//                 [self handleEmptyResultWithPotentialError:error command:command];
-//             }
-//         }];
-//     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithContext:exception :command];
-//     }
-// }
+- (void)unregister:(CDVInvokedUrlCommand *)command {
+    @try {
+        __block NSError* error = nil;
+        [[FIRMessaging messaging] deleteTokenWithCompletion:^(NSError * _Nullable deleteTokenError) {
+            if(error == nil && deleteTokenError != nil) error = deleteTokenError;
+            if([FIRMessaging messaging].isAutoInitEnabled){
+                [self _getToken:^(NSString* token, NSError* getError) {
+                    if(error == nil && getError != nil) error = getError;
+                    [self handleEmptyResultWithPotentialError:error command:command];
+                }];
+            }else{
+                [self handleEmptyResultWithPotentialError:error command:command];
+            }
+        }];
+    }@catch (NSException *exception) {
+        [self handlePluginExceptionWithContext:exception :command];
+    }
+}
 
-// - (void) onOpenSettings:(CDVInvokedUrlCommand *)command {
-//     @try {
-//         self.openSettingsCallbackId = command.callbackId;
+- (void) onOpenSettings:(CDVInvokedUrlCommand *)command {
+    @try {
+        self.openSettingsCallbackId = command.callbackId;
 
-//         if(openSettingsEmitted == YES) {
-//             [self sendPluginSuccessAndKeepCallback:self.openSettingsCallbackId];
-//             openSettingsEmitted = NO;
-//         }
-//     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithContext:exception :command];
-//     }
-// }
+        if(openSettingsEmitted == YES) {
+            [self sendPluginSuccessAndKeepCallback:self.openSettingsCallbackId];
+            openSettingsEmitted = NO;
+        }
+    }@catch (NSException *exception) {
+        [self handlePluginExceptionWithContext:exception :command];
+    }
+}
 
-// - (void)onMessageReceived:(CDVInvokedUrlCommand *)command {
-//     self.notificationCallbackId = command.callbackId;
-//     [self sendPendingNotifications];
-// }
+- (void)onMessageReceived:(CDVInvokedUrlCommand *)command {
+    self.notificationCallbackId = command.callbackId;
+    [self sendPendingNotifications];
+}
 
-// - (void)sendPendingNotifications {
-//     if (self.notificationCallbackId != nil && self.notificationStack != nil && [self.notificationStack count]) {
-//         @try {
-//             for (NSDictionary *userInfo in self.notificationStack) {
-//                 [self sendNotification:userInfo];
-//             }
-//             [self.notificationStack removeAllObjects];
-//         } @catch (NSException *exception) {
-//             [self handlePluginExceptionWithoutContext:exception];
-//         }
-//     }
-// }
+- (void)sendPendingNotifications {
+    if (self.notificationCallbackId != nil && self.notificationStack != nil && [self.notificationStack count]) {
+        @try {
+            for (NSDictionary *userInfo in self.notificationStack) {
+                [self sendNotification:userInfo];
+            }
+            [self.notificationStack removeAllObjects];
+        } @catch (NSException *exception) {
+            [self handlePluginExceptionWithoutContext:exception];
+        }
+    }
+}
 
-// - (void)onTokenRefresh:(CDVInvokedUrlCommand *)command {
-//     self.tokenRefreshCallbackId = command.callbackId;
-//     NSString* apnsToken = [self getAPNSToken];
-//     if(apnsToken != nil){
-//         [self _getToken:^(NSString *token, NSError *error) {
-//             if(error == nil && token != nil){
-//                 [self sendToken:token];
-//             }
-//         }];
-//     }
-// }
+- (void)onTokenRefresh:(CDVInvokedUrlCommand *)command {
+    self.tokenRefreshCallbackId = command.callbackId;
+    NSString* apnsToken = [self getAPNSToken];
+    if(apnsToken != nil){
+        [self _getToken:^(NSString *token, NSError *error) {
+            if(error == nil && token != nil){
+                [self sendToken:token];
+            }
+        }];
+    }
+}
 
-// - (void)onApnsTokenReceived:(CDVInvokedUrlCommand *)command {
-//     self.apnsTokenRefreshCallbackId = command.callbackId;
-//     @try {
-//         NSString* apnsToken = [self getAPNSToken];
-//         if(apnsToken != nil){
-//             [self sendApnsToken:apnsToken];
-//         }
-//     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithContext:exception :command];
-//     }
-// }
+- (void)onApnsTokenReceived:(CDVInvokedUrlCommand *)command {
+    self.apnsTokenRefreshCallbackId = command.callbackId;
+    @try {
+        NSString* apnsToken = [self getAPNSToken];
+        if(apnsToken != nil){
+            [self sendApnsToken:apnsToken];
+        }
+    }@catch (NSException *exception) {
+        [self handlePluginExceptionWithContext:exception :command];
+    }
+}
 
-// - (void) sendOpenNotificationSettings {
-//     @try {
-//         if(self.openSettingsCallbackId != nil) {
-//             [self sendPluginSuccessAndKeepCallback:self.openSettingsCallbackId];
-//         } else if(openSettingsEmitted != YES) {
-//             openSettingsEmitted = YES;
-//         }
-//     } @catch (NSException *exception) {
-//         [self handlePluginExceptionWithContext:exception :self.commandDelegate];
-//     }
-// }
+- (void) sendOpenNotificationSettings {
+    @try {
+        if(self.openSettingsCallbackId != nil) {
+            [self sendPluginSuccessAndKeepCallback:self.openSettingsCallbackId];
+        } else if(openSettingsEmitted != YES) {
+            openSettingsEmitted = YES;
+        }
+    } @catch (NSException *exception) {
+        [self handlePluginExceptionWithContext:exception :self.commandDelegate];
+    }
+}
 
-// - (void)sendNotification:(NSDictionary *)userInfo {
-//     @try {
-//         if([FirebasePluginMessageReceiverManager sendNotification:userInfo]){
-//             [self _logMessage:@"Message handled by custom receiver"];
-//             return;
-//         }
-//         if (self.notificationCallbackId != nil && ([AppDelegate.instance.applicationInBackground isEqual:@(NO)] || immediateMessagePayloadDelivery )) {
-//             [self sendPluginDictionaryResultAndKeepCallback:userInfo command:self.commandDelegate callbackId:self.notificationCallbackId];
-//         } else {
-//             if (!self.notificationStack) {
-//                 self.notificationStack = [[NSMutableArray alloc] init];
-//             }
+- (void)sendNotification:(NSDictionary *)userInfo {
+    @try {
+        if([FirebasePluginMessageReceiverManager sendNotification:userInfo]){
+            [self _logMessage:@"Message handled by custom receiver"];
+            return;
+        }
+        if (self.notificationCallbackId != nil && ([AppDelegate.instance.applicationInBackground isEqual:@(NO)] || immediateMessagePayloadDelivery )) {
+            [self sendPluginDictionaryResultAndKeepCallback:userInfo command:self.commandDelegate callbackId:self.notificationCallbackId];
+        } else {
+            if (!self.notificationStack) {
+                self.notificationStack = [[NSMutableArray alloc] init];
+            }
 
-//             // stack notifications until a callback has been registered
-//             [self.notificationStack addObject:userInfo];
+            // stack notifications until a callback has been registered
+            [self.notificationStack addObject:userInfo];
 
-//             if ([self.notificationStack count] >= kNotificationStackSize) {
-//                 [self.notificationStack removeLastObject];
-//             }
-//         }
-//     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithContext:exception :self.commandDelegate];
-//     }
-// }
+            if ([self.notificationStack count] >= kNotificationStackSize) {
+                [self.notificationStack removeLastObject];
+            }
+        }
+    }@catch (NSException *exception) {
+        [self handlePluginExceptionWithContext:exception :self.commandDelegate];
+    }
+}
 
-// - (void)sendToken:(NSString *)token {
-//     @try {
-//         if (self.tokenRefreshCallbackId != nil) {
-//             [self sendPluginStringResultAndKeepCallback:token command:self.commandDelegate callbackId:self.tokenRefreshCallbackId];
-//         }
-//     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithContext:exception :self.commandDelegate];
-//     }
-// }
+- (void)sendToken:(NSString *)token {
+    @try {
+        if (self.tokenRefreshCallbackId != nil) {
+            [self sendPluginStringResultAndKeepCallback:token command:self.commandDelegate callbackId:self.tokenRefreshCallbackId];
+        }
+    }@catch (NSException *exception) {
+        [self handlePluginExceptionWithContext:exception :self.commandDelegate];
+    }
+}
 
-// - (void)sendApnsToken:(NSString *)token {
-//     @try {
-//         if (self.apnsTokenRefreshCallbackId != nil) {
-//             [self sendPluginStringResultAndKeepCallback:token command:self.commandDelegate callbackId:self.apnsTokenRefreshCallbackId];
-//         }
-//     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithContext:exception :self.commandDelegate];
-//     }
-// }
+- (void)sendApnsToken:(NSString *)token {
+    @try {
+        if (self.apnsTokenRefreshCallbackId != nil) {
+            [self sendPluginStringResultAndKeepCallback:token command:self.commandDelegate callbackId:self.apnsTokenRefreshCallbackId];
+        }
+    }@catch (NSException *exception) {
+        [self handlePluginExceptionWithContext:exception :self.commandDelegate];
+    }
+}
 
-// - (void)clearAllNotifications:(CDVInvokedUrlCommand *)command {
-//     [self runOnMainThread:^{
-//         @try {
-//             [[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
-//             [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+- (void)clearAllNotifications:(CDVInvokedUrlCommand *)command {
+    [self runOnMainThread:^{
+        @try {
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 
-//             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-//             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-//         }@catch (NSException *exception) {
-//             [self handlePluginExceptionWithContext:exception :command];
-//         }
-//     }];
-// }
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }@catch (NSException *exception) {
+            [self handlePluginExceptionWithContext:exception :command];
+        }
+    }];
+}
 
 /*
  * Authentication
