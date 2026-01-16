@@ -26,75 +26,71 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.google.android.gms.tasks.TaskCompletionSource;
-import com.google.firebase.auth.ActionCodeSettings;
-import com.google.firebase.auth.EmailAuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FacebookAuthProvider;
-import com.google.firebase.auth.FirebaseAuthMultiFactorException;
-import com.google.firebase.auth.FirebaseUserMetadata;
-import com.google.firebase.auth.MultiFactorAssertion;
-import com.google.firebase.auth.MultiFactorInfo;
-import com.google.firebase.auth.MultiFactorResolver;
-import com.google.firebase.auth.MultiFactorSession;
-import com.google.firebase.auth.PhoneAuthOptions;
-import com.google.firebase.auth.PhoneMultiFactorGenerator;
-import com.google.firebase.auth.PhoneMultiFactorInfo;
-import com.google.firebase.auth.UserInfo;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+// import com.google.firebase.auth.ActionCodeSettings;
+// import com.google.firebase.auth.EmailAuthCredential;
+// import com.google.firebase.auth.EmailAuthProvider;
+// import com.google.firebase.auth.FacebookAuthProvider;
+// import com.google.firebase.auth.FirebaseAuthMultiFactorException;
+// import com.google.firebase.auth.FirebaseUserMetadata;
+// import com.google.firebase.auth.MultiFactorAssertion;
+// import com.google.firebase.auth.MultiFactorInfo;
+// import com.google.firebase.auth.MultiFactorResolver;
+// import com.google.firebase.auth.MultiFactorSession;
+// import com.google.firebase.auth.PhoneAuthOptions;
+// import com.google.firebase.auth.PhoneMultiFactorGenerator;
+// import com.google.firebase.auth.PhoneMultiFactorInfo;
+// import com.google.firebase.auth.UserInfo;
+// import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.Timestamp;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.analytics.FirebaseAnalytics.ConsentType;
-import com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.OAuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
-import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.auth.OAuthProvider;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.crashlytics.internal.metadata.UserMetadata;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.MetadataChanges;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Query.Direction;
-import com.google.firebase.functions.FirebaseFunctions;
-import com.google.firebase.functions.FirebaseFunctionsException;
-import com.google.firebase.functions.HttpsCallableResult;
-import com.google.firebase.installations.FirebaseInstallations;
-import com.google.firebase.installations.InstallationTokenResult;
+
+// import com.google.android.gms.common.api.ApiException;
+// import com.google.android.gms.common.api.CommonStatusCodes;
+// import com.google.android.gms.common.api.GoogleApiClient;
+// import com.google.android.gms.tasks.Continuation;
+// import com.google.android.gms.tasks.OnCompleteListener;
+// import com.google.android.gms.tasks.OnFailureListener;
+// import com.google.android.gms.tasks.OnSuccessListener;
+// import com.google.android.gms.tasks.Task;
+// import com.google.firebase.FirebaseApp;
+// import com.google.firebase.Timestamp;
+// import com.google.firebase.analytics.FirebaseAnalytics;
+// import com.google.firebase.analytics.FirebaseAnalytics.ConsentType;
+// import com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus;
+// import com.google.firebase.auth.AuthCredential;
+// import com.google.firebase.auth.OAuthCredential;
+// import com.google.firebase.auth.AuthResult;
+// import com.google.firebase.auth.FirebaseAuth;
+// import com.google.firebase.auth.FirebaseUser;
+// import com.google.firebase.auth.GetTokenResult;
+// import com.google.firebase.auth.GoogleAuthProvider;
+// import com.google.firebase.auth.OAuthProvider;
+// import com.google.firebase.auth.UserProfileChangeRequest;
+// import com.google.firebase.crashlytics.internal.metadata.UserMetadata;
+// import com.google.firebase.firestore.CollectionReference;
+// import com.google.firebase.firestore.DocumentChange;
+// import com.google.firebase.firestore.DocumentReference;
+// import com.google.firebase.firestore.DocumentSnapshot;
+// import com.google.firebase.firestore.EventListener;
+// import com.google.firebase.firestore.FirebaseFirestore;
+// import com.google.firebase.firestore.FirebaseFirestoreException;
+// import com.google.firebase.firestore.ListenerRegistration;
+// import com.google.firebase.firestore.MetadataChanges;
+// import com.google.firebase.firestore.Query;
+// import com.google.firebase.firestore.QueryDocumentSnapshot;
+// import com.google.firebase.firestore.QuerySnapshot;
+// import com.google.firebase.firestore.Query.Direction;
+// import com.google.firebase.functions.FirebaseFunctions;
+// import com.google.firebase.functions.FirebaseFunctionsException;
+// import com.google.firebase.functions.HttpsCallableResult;
+// import com.google.firebase.installations.FirebaseInstallations;
+// import com.google.firebase.installations.InstallationTokenResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue;
-import com.google.firebase.perf.FirebasePerformance;
-import com.google.firebase.perf.metrics.Trace;
+// import com.google.firebase.perf.FirebasePerformance;
+// import com.google.firebase.perf.metrics.Trace;
 
 
 import org.apache.cordova.CallbackContext;
@@ -122,11 +118,11 @@ import java.util.EnumMap;
 // Firebase PhoneAuth
 import java.util.concurrent.TimeUnit;
 
-import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.FirebaseTooManyRequestsException;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthProvider;
+// import com.google.firebase.FirebaseException;
+// import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+// import com.google.firebase.FirebaseTooManyRequestsException;
+// import com.google.firebase.auth.PhoneAuthCredential;
+// import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -141,15 +137,15 @@ import static android.content.Context.MODE_PRIVATE;
 public class FirebasePlugin extends CordovaPlugin {
 
     protected static FirebasePlugin instance = null;
-    private FirebaseAnalytics mFirebaseAnalytics;
-    private FirebaseCrashlytics firebaseCrashlytics;
-    private FirebaseFirestore firestore;
-    private FirebaseFunctions functions;
+    // private FirebaseAnalytics mFirebaseAnalytics;
+    // private FirebaseCrashlytics firebaseCrashlytics;
+    // private FirebaseFirestore firestore;
+    // private FirebaseFunctions functions;
     private Gson gson;
-    private FirebaseAuth.AuthStateListener authStateListener;
-    private FirebaseAuth.IdTokenListener idTokenListener;
-    private boolean authStateChangeListenerInitialized = false;
-    private String currentIdToken;
+    // private FirebaseAuth.AuthStateListener authStateListener;
+    // private FirebaseAuth.IdTokenListener idTokenListener;
+    // private boolean authStateChangeListenerInitialized = false;
+    // private String currentIdToken;
     private static CordovaInterface cordovaInterface = null;
     protected static Context applicationContext = null;
     private static Activity cordovaActivity = null;
@@ -162,15 +158,15 @@ public class FirebasePlugin extends CordovaPlugin {
     protected static final int ID_TOKEN_NOTIFY_MAX_RETRIES = 10;
     protected static final int GOOGLE_SIGN_IN = 0x1;
     protected static final String SETTINGS_NAME = "settings";
-    private static final String CRASHLYTICS_COLLECTION_ENABLED = "firebase_crashlytics_collection_enabled";
-    private static final String ANALYTICS_COLLECTION_ENABLED = "firebase_analytics_collection_enabled";
-    private static final String PERFORMANCE_COLLECTION_ENABLED = "firebase_performance_collection_enabled";
+    // private static final String CRASHLYTICS_COLLECTION_ENABLED = "firebase_crashlytics_collection_enabled";
+    // private static final String ANALYTICS_COLLECTION_ENABLED = "firebase_analytics_collection_enabled";
+    // private static final String PERFORMANCE_COLLECTION_ENABLED = "firebase_performance_collection_enabled";
 
-    private static final String GOOGLE_ANALYTICS_ADID_COLLECTION_ENABLED = "google_analytics_adid_collection_enabled";
-    private static final String GOOGLE_ANALYTICS_DEFAULT_ALLOW_ANALYTICS_STORAGE = "google_analytics_default_allow_analytics_storage";
-    private static final String GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_STORAGE = "firebase_performance_collectigoogle_analytics_default_allow_ad_storageon_enabled";
-    private static final String GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_USER_DATA = "google_analytics_default_allow_ad_user_data";
-    private static final String GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS = "google_analytics_default_allow_ad_personalization_signals";
+    // private static final String GOOGLE_ANALYTICS_ADID_COLLECTION_ENABLED = "google_analytics_adid_collection_enabled";
+    // private static final String GOOGLE_ANALYTICS_DEFAULT_ALLOW_ANALYTICS_STORAGE = "google_analytics_default_allow_analytics_storage";
+    // private static final String GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_STORAGE = "firebase_performance_collectigoogle_analytics_default_allow_ad_storageon_enabled";
+    // private static final String GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_USER_DATA = "google_analytics_default_allow_ad_user_data";
+    // private static final String GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS = "google_analytics_default_allow_ad_personalization_signals";
 
 
     protected static final String POST_NOTIFICATIONS = "POST_NOTIFICATIONS";
@@ -182,19 +178,19 @@ public class FirebasePlugin extends CordovaPlugin {
     private static CallbackContext notificationCallbackContext;
     private static CallbackContext tokenRefreshCallbackContext;
     private static CallbackContext activityResultCallbackContext;
-    private static CallbackContext authResultCallbackContext;
+    // private static CallbackContext authResultCallbackContext;
     private static CallbackContext postNotificationPermissionRequestCallbackContext;
 
     private static NotificationChannel defaultNotificationChannel = null;
     public static String defaultChannelId = null;
     public static String defaultChannelName = null;
 
-    private Map<String, AuthCredential> authCredentials = new HashMap<String, AuthCredential>();
-    private Map<String, OAuthProvider> authProviders = new HashMap<String, OAuthProvider>();
+    // private Map<String, AuthCredential> authCredentials = new HashMap<String, AuthCredential>();
+    // private Map<String, OAuthProvider> authProviders = new HashMap<String, OAuthProvider>();
 
-    private Map<String, ListenerRegistration> firestoreListeners = new HashMap<String, ListenerRegistration>();
+    // private Map<String, ListenerRegistration> firestoreListeners = new HashMap<String, ListenerRegistration>();
 
-    private MultiFactorResolver multiFactorResolver = null;
+    // private MultiFactorResolver multiFactorResolver = null;
 
     @Override
     protected void pluginInitialize() {
@@ -203,57 +199,57 @@ public class FirebasePlugin extends CordovaPlugin {
         applicationContext = cordovaActivity.getApplicationContext();
         final Bundle extras = cordovaActivity.getIntent().getExtras();
         FirebasePlugin.cordovaInterface = this.cordova;
-        firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+        // firebaseCrashlytics = FirebaseCrashlytics.getInstance();
         this.cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 try {
                     Log.d(TAG, "Starting Firebase plugin");
 
-                    if (getMetaDataFromManifest(CRASHLYTICS_COLLECTION_ENABLED)) {
-                        setPreference(CRASHLYTICS_COLLECTION_ENABLED, true);
-                    }
+                    // if (getMetaDataFromManifest(CRASHLYTICS_COLLECTION_ENABLED)) {
+                    //     setPreference(CRASHLYTICS_COLLECTION_ENABLED, true);
+                    // }
 
-                    if (getMetaDataFromManifest(ANALYTICS_COLLECTION_ENABLED)) {
-                        setPreference(ANALYTICS_COLLECTION_ENABLED, true);
-                    }
+                    // if (getMetaDataFromManifest(ANALYTICS_COLLECTION_ENABLED)) {
+                    //     setPreference(ANALYTICS_COLLECTION_ENABLED, true);
+                    // }
 
-                    if (getMetaDataFromManifest(PERFORMANCE_COLLECTION_ENABLED)) {
-                        setPreference(PERFORMANCE_COLLECTION_ENABLED, true);
-                    }
+                    // if (getMetaDataFromManifest(PERFORMANCE_COLLECTION_ENABLED)) {
+                    //     setPreference(PERFORMANCE_COLLECTION_ENABLED, true);
+                    // }
 
-                    if (getMetaDataFromManifest(GOOGLE_ANALYTICS_ADID_COLLECTION_ENABLED)) {
-                        setPreference(GOOGLE_ANALYTICS_ADID_COLLECTION_ENABLED, true);
-                    }
+                    // if (getMetaDataFromManifest(GOOGLE_ANALYTICS_ADID_COLLECTION_ENABLED)) {
+                    //     setPreference(GOOGLE_ANALYTICS_ADID_COLLECTION_ENABLED, true);
+                    // }
 
-                    if (getMetaDataFromManifest(GOOGLE_ANALYTICS_DEFAULT_ALLOW_ANALYTICS_STORAGE)) {
-                        setPreference(GOOGLE_ANALYTICS_DEFAULT_ALLOW_ANALYTICS_STORAGE, true);
-                    }
+                    // if (getMetaDataFromManifest(GOOGLE_ANALYTICS_DEFAULT_ALLOW_ANALYTICS_STORAGE)) {
+                    //     setPreference(GOOGLE_ANALYTICS_DEFAULT_ALLOW_ANALYTICS_STORAGE, true);
+                    // }
 
-                    if (getMetaDataFromManifest(GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_STORAGE)) {
-                        setPreference(GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_STORAGE, true);
-                    }
+                    // if (getMetaDataFromManifest(GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_STORAGE)) {
+                    //     setPreference(GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_STORAGE, true);
+                    // }
 
-                    if (getMetaDataFromManifest(GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_USER_DATA)) {
-                        setPreference(GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_USER_DATA, true);
-                    }
+                    // if (getMetaDataFromManifest(GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_USER_DATA)) {
+                    //     setPreference(GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_USER_DATA, true);
+                    // }
 
-                    if (getMetaDataFromManifest(GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS)) {
-                        setPreference(GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS, true);
-                    }
+                    // if (getMetaDataFromManifest(GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS)) {
+                    //     setPreference(GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS, true);
+                    // }
 
                     immediateMessagePayloadDelivery = getPluginVariableFromConfigXml("FIREBASE_MESSAGING_IMMEDIATE_PAYLOAD_DELIVERY").equals("true");
 
                     FirebaseApp.initializeApp(applicationContext);
-                    mFirebaseAnalytics = FirebaseAnalytics.getInstance(applicationContext);
+                    // mFirebaseAnalytics = FirebaseAnalytics.getInstance(applicationContext);
 
-                    authStateListener = new AuthStateListener();
-                    FirebaseAuth.getInstance().addAuthStateListener(authStateListener);
+                    // authStateListener = new AuthStateListener();
+                    // FirebaseAuth.getInstance().addAuthStateListener(authStateListener);
 
-                    idTokenListener = new IdTokenListener();
-                    FirebaseAuth.getInstance().addIdTokenListener(idTokenListener);
+                    // idTokenListener = new IdTokenListener();
+                    // FirebaseAuth.getInstance().addIdTokenListener(idTokenListener);
 
-                    firestore = FirebaseFirestore.getInstance();
-                    functions = FirebaseFunctions.getInstance();
+                    // firestore = FirebaseFirestore.getInstance();
+                    // functions = FirebaseFunctions.getInstance();
 
                     gson = new GsonBuilder()
                             .registerTypeAdapter(Double.class, new JsonSerializer<Double>() {
@@ -349,9 +345,9 @@ public class FirebasePlugin extends CordovaPlugin {
                 case "logError":
                     this.logError(callbackContext, args);
                     break;
-                case "setCrashlyticsUserId":
-                    this.setCrashlyticsUserId(callbackContext, args.getString(0));
-                    break;
+                // case "setCrashlyticsUserId":
+                //     this.setCrashlyticsUserId(callbackContext, args.getString(0));
+                //     break;
                 case "setScreenName":
                     this.setScreenName(callbackContext, args.getString(0));
                     break;
@@ -386,9 +382,9 @@ public class FirebasePlugin extends CordovaPlugin {
                 case "getAll":
                     this.getAll(callbackContext);
                     break;
-                case "didCrashOnPreviousExecution":
-                    this.didCrashOnPreviousExecution(callbackContext);
-                    break;
+                // case "didCrashOnPreviousExecution":
+                //     this.didCrashOnPreviousExecution(callbackContext);
+                //     break;
                 case "setConfigSettings":
                     this.setConfigSettings(callbackContext, args);
                     break;
@@ -515,27 +511,27 @@ public class FirebasePlugin extends CordovaPlugin {
                 case "isPerformanceCollectionEnabled":
                     this.isPerformanceCollectionEnabled(callbackContext);
                     break;
-                case "setCrashlyticsCollectionEnabled":
-                    this.setCrashlyticsCollectionEnabled(callbackContext, args.getBoolean(0));
-                    break;
-                case "isCrashlyticsCollectionEnabled":
-                    this.isCrashlyticsCollectionEnabled(callbackContext);
-                    break;
+                // case "setCrashlyticsCollectionEnabled":
+                //     this.setCrashlyticsCollectionEnabled(callbackContext, args.getBoolean(0));
+                //     break;
+                // case "isCrashlyticsCollectionEnabled":
+                //     this.isCrashlyticsCollectionEnabled(callbackContext);
+                //     break;
                 case "setAnalyticsConsentMode":
                     this.setAnalyticsConsentMode(callbackContext, args.getJSONObject(0));
                     break;
                 case "clearAllNotifications":
                     this.clearAllNotifications(callbackContext);
                     break;
-                case "setCrashlyticsCustomKey":
-                    this.setCrashlyticsCustomKey(callbackContext, args);
-                    break;
+                // case "setCrashlyticsCustomKey":
+                //     this.setCrashlyticsCustomKey(callbackContext, args);
+                //     break;
                 case "logMessage":
                     logMessage(args, callbackContext);
                     break;
-                case "sendCrash":
-                    sendCrash(args, callbackContext);
-                    break;
+                // case "sendCrash":
+                //     sendCrash(args, callbackContext);
+                //     break;
                 case "createChannel":
                     this.createChannel(callbackContext, args.getJSONObject(0));
                     break;
@@ -932,7 +928,7 @@ public class FirebasePlugin extends CordovaPlugin {
                     boolean isEnabled = FirebaseMessaging.getInstance().isAutoInitEnabled();
                     callbackContext.success(conformBooleanForPluginResult(isEnabled));
                 } catch (Exception e) {
-                    logExceptionToCrashlytics(e);
+                    // logExceptionToCrashlytics(e);
                     callbackContext.error(e.getMessage());
                 }
             }
@@ -947,7 +943,7 @@ public class FirebasePlugin extends CordovaPlugin {
                     FirebaseMessaging.getInstance().setAutoInitEnabled(enabled);
                     callbackContext.success();
                 } catch (Exception e) {
-                    logExceptionToCrashlytics(e);
+                    // logExceptionToCrashlytics(e);
                     e.printStackTrace();
                     callbackContext.error(e.getMessage());
                 }
@@ -1010,26 +1006,26 @@ public class FirebasePlugin extends CordovaPlugin {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 try {
-                    if (isCrashlyticsEnabled()) {
+                    // if (isCrashlyticsEnabled()) {
                         // We can optionally be passed a stack trace generated by stacktrace.js.
-                        if (args.length() == 2) {
-                            JSONArray stackTrace = args.getJSONArray(1);
-                            StackTraceElement[] trace = new StackTraceElement[stackTrace.length()];
-                            for (int i = 0; i < stackTrace.length(); i++) {
-                                JSONObject elem = stackTrace.getJSONObject(i);
-                                trace[i] = new StackTraceElement(
-                                        "",
-                                        elem.optString("functionName", "(anonymous function)"),
-                                        elem.optString("fileName", "(unknown file)"),
-                                        elem.optInt("lineNumber", -1)
-                                );
-                            }
+                        // if (args.length() == 2) {
+                            // JSONArray stackTrace = args.getJSONArray(1);
+                            // StackTraceElement[] trace = new StackTraceElement[stackTrace.length()];
+                            // for (int i = 0; i < stackTrace.length(); i++) {
+                            //     JSONObject elem = stackTrace.getJSONObject(i);
+                            //     trace[i] = new StackTraceElement(
+                            //             "",
+                            //             elem.optString("functionName", "(anonymous function)"),
+                            //             elem.optString("fileName", "(unknown file)"),
+                            //             elem.optInt("lineNumber", -1)
+                            //     );
+                            // }
 
-                            Exception e = new JavaScriptException(message);
-                            e.setStackTrace(trace);
-                            logExceptionToCrashlytics(e);
+                            // Exception e = new JavaScriptException(message);
+                            // e.setStackTrace(trace);
+                            // logExceptionToCrashlytics(e);
                         } else {
-                            logExceptionToCrashlytics(new JavaScriptException(message));
+                            // logExceptionToCrashlytics(new JavaScriptException(message));
                         }
 
                         Log.e(TAG, message);
@@ -1038,88 +1034,88 @@ public class FirebasePlugin extends CordovaPlugin {
                         callbackContext.error("Cannot log error - Crashlytics collection is disabled");
                     }
                 } catch (Exception e) {
-                    logExceptionToCrashlytics(e);
+                    // logExceptionToCrashlytics(e);
                     callbackContext.error(e.getMessage());
                 }
             }
         });
     }
 
-    private void setCrashlyticsCustomKey(final CallbackContext callbackContext, final JSONArray data) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                if (isCrashlyticsEnabled()) {
-                    try {
-                        Object value = data.get(1);
-                        // Floats can be omitted since they're not passed through JSONArray
-                        if (value instanceof Integer) {
-                            firebaseCrashlytics.setCustomKey(data.getString(0), data.getInt(1));
-                            callbackContext.success();
-                        } else if (value instanceof Double) {
-                            firebaseCrashlytics.setCustomKey(data.getString(0), data.getDouble(1));
-                            callbackContext.success();
-                        } else if (value instanceof Long) {
-                            firebaseCrashlytics.setCustomKey(data.getString(0), data.getLong(1));
-                            callbackContext.success();
-                        } else if (value instanceof String) {
-                            firebaseCrashlytics.setCustomKey(data.getString(0), data.getString(1));
-                            callbackContext.success();
-                        } else if (value instanceof Boolean) {
-                            firebaseCrashlytics.setCustomKey(data.getString(0), data.getBoolean(1));
-                            callbackContext.success();
-                        } else {
-                            callbackContext.error("Cannot set custom key - Value is not an acceptable type");
-                        }
-                    } catch (Exception e) {
-                        handleExceptionWithContext(e, callbackContext);
-                    }
-                } else {
-                    callbackContext.error("Cannot set custom key - Crashlytics collection is disabled");
-                }
-            }
-        });
-    }
+    // private void setCrashlyticsCustomKey(final CallbackContext callbackContext, final JSONArray data) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             if (isCrashlyticsEnabled()) {
+    //                 try {
+    //                     Object value = data.get(1);
+    //                     // Floats can be omitted since they're not passed through JSONArray
+    //                     if (value instanceof Integer) {
+    //                         firebaseCrashlytics.setCustomKey(data.getString(0), data.getInt(1));
+    //                         callbackContext.success();
+    //                     } else if (value instanceof Double) {
+    //                         firebaseCrashlytics.setCustomKey(data.getString(0), data.getDouble(1));
+    //                         callbackContext.success();
+    //                     } else if (value instanceof Long) {
+    //                         firebaseCrashlytics.setCustomKey(data.getString(0), data.getLong(1));
+    //                         callbackContext.success();
+    //                     } else if (value instanceof String) {
+    //                         firebaseCrashlytics.setCustomKey(data.getString(0), data.getString(1));
+    //                         callbackContext.success();
+    //                     } else if (value instanceof Boolean) {
+    //                         firebaseCrashlytics.setCustomKey(data.getString(0), data.getBoolean(1));
+    //                         callbackContext.success();
+    //                     } else {
+    //                         callbackContext.error("Cannot set custom key - Value is not an acceptable type");
+    //                     }
+    //                 } catch (Exception e) {
+    //                     handleExceptionWithContext(e, callbackContext);
+    //                 }
+    //             } else {
+    //                 callbackContext.error("Cannot set custom key - Crashlytics collection is disabled");
+    //             }
+    //         }
+    //     });
+    // }
 
-    private void logMessage(final JSONArray data,
-                            final CallbackContext callbackContext) {
+    // private void logMessage(final JSONArray data,
+    //                         final CallbackContext callbackContext) {
 
-        if (isCrashlyticsEnabled()) {
-            String message = data.optString(0);
-            logMessageToCrashlytics(message);
-            callbackContext.success();
-        } else {
-            callbackContext.error("Cannot log message - Crashlytics collection is disabled");
-        }
-    }
+    //     if (isCrashlyticsEnabled()) {
+    //         // String message = data.optString(0);
+    //         // logMessageToCrashlytics(message);
+    //         // callbackContext.success();
+    //     } else {
+    //         callbackContext.error("Cannot log message - Crashlytics collection is disabled");
+    //     }
+    // }
 
-    private void sendCrash(final JSONArray data,
-                           final CallbackContext callbackContext) {
+    // private void sendCrash(final JSONArray data,
+    //                        final CallbackContext callbackContext) {
 
-        cordovaActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                throw new RuntimeException("This is a crash");
-            }
-        });
-    }
+    //     cordovaActivity.runOnUiThread(new Runnable() {
+    //         @Override
+    //         public void run() {
+    //             throw new RuntimeException("This is a crash");
+    //         }
+    //     });
+    // }
 
 
-    private void setCrashlyticsUserId(final CallbackContext callbackContext, final String userId) {
-        cordovaActivity.runOnUiThread(new Runnable() {
-            public void run() {
-                try {
-                    if (isCrashlyticsEnabled()) {
-                        firebaseCrashlytics.setUserId(userId);
-                        callbackContext.success();
-                    } else {
-                        callbackContext.error("Cannot set Crashlytics user ID - Crashlytics collection is disabled");
-                    }
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    // private void setCrashlyticsUserId(final CallbackContext callbackContext, final String userId) {
+    //     cordovaActivity.runOnUiThread(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 if (isCrashlyticsEnabled()) {
+    //                     firebaseCrashlytics.setUserId(userId);
+    //                     callbackContext.success();
+    //                 } else {
+    //                     callbackContext.error("Cannot set Crashlytics user ID - Crashlytics collection is disabled");
+    //                 }
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
     private void setScreenName(final CallbackContext callbackContext, final String name) {
         // This must be called on the main thread
@@ -1307,21 +1303,21 @@ public class FirebasePlugin extends CordovaPlugin {
         });
     }
 
-    private void didCrashOnPreviousExecution(final CallbackContext callbackContext) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                if (isCrashlyticsEnabled()) {
-                    try {
-                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, firebaseCrashlytics.didCrashOnPreviousExecution()));
-                    } catch (Exception e) {
-                        handleExceptionWithContext(e, callbackContext);
-                    }
-                } else {
-                    callbackContext.error("Cannot query didCrashOnPreviousExecution - Crashlytics collection is disabled");
-                }
-            }
-        });
-    }
+    // private void didCrashOnPreviousExecution(final CallbackContext callbackContext) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             if (isCrashlyticsEnabled()) {
+    //                 try {
+    //                     callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, firebaseCrashlytics.didCrashOnPreviousExecution()));
+    //                 } catch (Exception e) {
+    //                     handleExceptionWithContext(e, callbackContext);
+    //                 }
+    //             } else {
+    //                 callbackContext.error("Cannot query didCrashOnPreviousExecution - Crashlytics collection is disabled");
+    //             }
+    //         }
+    //     });
+    // }
 
     private static Map<String, Object> defaultsToMap(JSONObject object) throws JSONException {
         final Map<String, Object> map = new HashMap<String, Object>();
@@ -2839,61 +2835,61 @@ public class FirebasePlugin extends CordovaPlugin {
         });
     }
 
-    private void setCrashlyticsCollectionEnabled(final CallbackContext callbackContext, final boolean enabled) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    firebaseCrashlytics.setCrashlyticsCollectionEnabled(enabled);
-                    setPreference(CRASHLYTICS_COLLECTION_ENABLED, enabled);
-                    callbackContext.success();
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+    // private void setCrashlyticsCollectionEnabled(final CallbackContext callbackContext, final boolean enabled) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 firebaseCrashlytics.setCrashlyticsCollectionEnabled(enabled);
+    //                 setPreference(CRASHLYTICS_COLLECTION_ENABLED, enabled);
+    //                 callbackContext.success();
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //                 e.printStackTrace();
+    //             }
+    //         }
+    //     });
+    // }
 
-    private void isCrashlyticsCollectionEnabled(final CallbackContext callbackContext) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    callbackContext.success(conformBooleanForPluginResult(isCrashlyticsEnabled()));
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+    // private void isCrashlyticsCollectionEnabled(final CallbackContext callbackContext) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 callbackContext.success(conformBooleanForPluginResult(isCrashlyticsEnabled()));
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //                 e.printStackTrace();
+    //             }
+    //         }
+    //     });
+    // }
 
-    private boolean isCrashlyticsEnabled() {
-        return getPreference(CRASHLYTICS_COLLECTION_ENABLED);
-    }
+    // private boolean isCrashlyticsEnabled() {
+    //     return getPreference(CRASHLYTICS_COLLECTION_ENABLED);
+    // }
 
-    private void setAnalyticsConsentMode(final CallbackContext callbackContext, final JSONObject consent) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    Map<ConsentType, ConsentStatus> consentMap = new EnumMap<>(ConsentType.class);
-                    Iterator<String> keys = consent.keys();
+    // private void setAnalyticsConsentMode(final CallbackContext callbackContext, final JSONObject consent) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 Map<ConsentType, ConsentStatus> consentMap = new EnumMap<>(ConsentType.class);
+    //                 Iterator<String> keys = consent.keys();
 
-                    while(keys.hasNext()) {
-                        String key = keys.next();
-                        ConsentType consentType = ConsentType.valueOf(key);
-                        ConsentStatus consentStatus = ConsentStatus.valueOf(consent.getString(key));
-                        consentMap.put(consentType, consentStatus);
-                    }
+    //                 while(keys.hasNext()) {
+    //                     String key = keys.next();
+    //                     ConsentType consentType = ConsentType.valueOf(key);
+    //                     ConsentStatus consentStatus = ConsentStatus.valueOf(consent.getString(key));
+    //                     consentMap.put(consentType, consentStatus);
+    //                 }
 
-                    mFirebaseAnalytics.setConsent(consentMap);
-                    callbackContext.success();
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+    //                 mFirebaseAnalytics.setConsent(consentMap);
+    //                 callbackContext.success();
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //                 e.printStackTrace();
+    //             }
+    //         }
+    //     });
+    // }
 
     public void clearAllNotifications(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
@@ -3758,7 +3754,7 @@ public class FirebasePlugin extends CordovaPlugin {
         String msg = e.toString();
         Log.e(TAG, msg);
         if (instance != null) {
-            instance.logExceptionToCrashlytics(e);
+            // instance.logExceptionToCrashlytics(e);
         }
         context.error(msg);
     }
@@ -3767,7 +3763,7 @@ public class FirebasePlugin extends CordovaPlugin {
         String msg = e.toString();
         Log.e(TAG, msg);
         if (instance != null) {
-            instance.logExceptionToCrashlytics(e);
+            // instance.logExceptionToCrashlytics(e);
             instance.logErrorToWebview(msg);
         }
     }
@@ -4227,29 +4223,29 @@ public class FirebasePlugin extends CordovaPlugin {
         return new JSONArray(jsonString);
     }
 
-    private void logMessageToCrashlytics(String message) {
-        if (isCrashlyticsEnabled()) {
-            try {
-                firebaseCrashlytics.log(message);
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
-            }
-        } else {
-            Log.e(TAG, "Cannot log message - Crashlytics collection is disabled");
-        }
-    }
+    // private void logMessageToCrashlytics(String message) {
+    //     if (isCrashlyticsEnabled()) {
+    //         try {
+    //             firebaseCrashlytics.log(message);
+    //         } catch (Exception e) {
+    //             Log.e(TAG, e.getMessage());
+    //         }
+    //     } else {
+    //         Log.e(TAG, "Cannot log message - Crashlytics collection is disabled");
+    //     }
+    // }
 
-    private void logExceptionToCrashlytics(Exception exception) {
-        if (isCrashlyticsEnabled()) {
-            try {
-                firebaseCrashlytics.recordException(exception);
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
-            }
-        } else {
-            Log.e(TAG, "Cannot log exception - Crashlytics collection is disabled");
-        }
-    }
+    // private void logExceptionToCrashlytics(Exception exception) {
+    //     if (isCrashlyticsEnabled()) {
+    //         try {
+    //             firebaseCrashlytics.recordException(exception);
+    //         } catch (Exception e) {
+    //             Log.e(TAG, e.getMessage());
+    //         }
+    //     } else {
+    //         Log.e(TAG, "Cannot log exception - Crashlytics collection is disabled");
+    //     }
+    // }
 
     private int conformBooleanForPluginResult(boolean result) {
         return result ? 1 : 0;
