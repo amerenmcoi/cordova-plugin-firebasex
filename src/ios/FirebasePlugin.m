@@ -2910,136 +2910,136 @@ static NSMutableArray* pendingGlobalJS = nil;
     }
 }
 
-- (FIRAuthCredential*)obtainAuthCredential:(NSDictionary*)credential command:(CDVInvokedUrlCommand *)command {
-    FIRAuthCredential* authCredential = nil;
+// - (FIRAuthCredential*)obtainAuthCredential:(NSDictionary*)credential command:(CDVInvokedUrlCommand *)command {
+//     FIRAuthCredential* authCredential = nil;
 
-    if(credential == nil){
-        NSString* errMsg = @"credential object must be passed as first and only argument";
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errMsg] callbackId:command.callbackId];
-        return authCredential;
-    }
+//     if(credential == nil){
+//         NSString* errMsg = @"credential object must be passed as first and only argument";
+//         [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errMsg] callbackId:command.callbackId];
+//         return authCredential;
+//     }
 
-    NSString* key = [credential objectForKey:@"id"];
-    NSString* verificationId = [credential objectForKey:@"verificationId"];
-    NSString* code = [credential objectForKey:@"code"];
+//     NSString* key = [credential objectForKey:@"id"];
+//     NSString* verificationId = [credential objectForKey:@"verificationId"];
+//     NSString* code = [credential objectForKey:@"code"];
 
-    if(key != nil){
-        authCredential = [authCredentials objectForKey:key];
-        if(authCredential == nil){
-            NSString* errMsg = [NSString stringWithFormat:@"no native auth credential exists for specified id '%@'", key];
-            [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errMsg] callbackId:command.callbackId];
-        }
-    }else if(verificationId != nil && code != nil){
-        authCredential = [[FIRPhoneAuthProvider provider]
-        credentialWithVerificationID:verificationId
-                    verificationCode:code];
-    }else{
-        NSString* errMsg = @"credential object must either specify the id key of an existing native auth credential or the verificationId/code keys must be specified for a phone number authentication";
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errMsg] callbackId:command.callbackId];
-    }
+//     if(key != nil){
+//         authCredential = [authCredentials objectForKey:key];
+//         if(authCredential == nil){
+//             NSString* errMsg = [NSString stringWithFormat:@"no native auth credential exists for specified id '%@'", key];
+//             [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errMsg] callbackId:command.callbackId];
+//         }
+//     }else if(verificationId != nil && code != nil){
+//         authCredential = [[FIRPhoneAuthProvider provider]
+//         credentialWithVerificationID:verificationId
+//                     verificationCode:code];
+//     }else{
+//         NSString* errMsg = @"credential object must either specify the id key of an existing native auth credential or the verificationId/code keys must be specified for a phone number authentication";
+//         [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errMsg] callbackId:command.callbackId];
+//     }
 
-    return authCredential;
-}
+//     return authCredential;
+// }
 
-- (void) handleAuthResult:(FIRAuthDataResult*) authResult error:(NSError*) error command:(CDVInvokedUrlCommand*)command {
-    @try {
-        CDVPluginResult* pluginResult;
-         if (error) {
-             pluginResult = [self createAuthErrorResult:error];
-         }else if (authResult == nil) {
-             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"User not signed in"];
-         }else{
-             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:true];
-         }
+// - (void) handleAuthResult:(FIRAuthDataResult*) authResult error:(NSError*) error command:(CDVInvokedUrlCommand*)command {
+//     @try {
+//         CDVPluginResult* pluginResult;
+//          if (error) {
+//              pluginResult = [self createAuthErrorResult:error];
+//          }else if (authResult == nil) {
+//              pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"User not signed in"];
+//          }else{
+//              pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:true];
+//          }
 
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-     }@catch (NSException *exception) {
-         [self handlePluginExceptionWithContext:exception :command];
-     }
-}
+//         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+//      }@catch (NSException *exception) {
+//          [self handlePluginExceptionWithContext:exception :command];
+//      }
+// }
 
 
-- (CDVPluginResult*) createAuthErrorResult:(NSError*) error{
-    CDVPluginResult* pluginResult;
-    if(error.code == FIRAuthErrorCodeSecondFactorRequired){
-        // The user is a multi-factor user. Second factor challenge is required.
-        multiFactorResolver = (FIRMultiFactorResolver*) error.userInfo[FIRAuthErrorUserInfoMultiFactorResolverKey];
-        NSMutableArray* secondFactors  = [self parseEnrolledSecondFactorsToJson:multiFactorResolver.hints];
-        NSString* errMessage = @"Second factor required";
+// - (CDVPluginResult*) createAuthErrorResult:(NSError*) error{
+//     CDVPluginResult* pluginResult;
+//     if(error.code == FIRAuthErrorCodeSecondFactorRequired){
+//         // The user is a multi-factor user. Second factor challenge is required.
+//         multiFactorResolver = (FIRMultiFactorResolver*) error.userInfo[FIRAuthErrorUserInfoMultiFactorResolverKey];
+//         NSMutableArray* secondFactors  = [self parseEnrolledSecondFactorsToJson:multiFactorResolver.hints];
+//         NSString* errMessage = @"Second factor required";
 
-        NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
-        [result setValue:errMessage forKey:@"errorMessage"];
-        [result setValue:secondFactors forKey:@"secondFactors"];
+//         NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
+//         [result setValue:errMessage forKey:@"errorMessage"];
+//         [result setValue:secondFactors forKey:@"secondFactors"];
 
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:result];
-    }else if (error.code == FIRAuthErrorCodeCredentialAlreadyInUse){
-        NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:[error userInfo]];
-        FIROAuthCredential* updatedCredential = userInfo[FIRAuthErrorUserInfoUpdatedCredentialKey];
-        NSMutableDictionary *responseDict = [[NSMutableDictionary alloc] init];
+//         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:result];
+//     }else if (error.code == FIRAuthErrorCodeCredentialAlreadyInUse){
+//         NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:[error userInfo]];
+//         FIROAuthCredential* updatedCredential = userInfo[FIRAuthErrorUserInfoUpdatedCredentialKey];
+//         NSMutableDictionary *responseDict = [[NSMutableDictionary alloc] init];
 
-        [responseDict setValue:@(error.code) forKey:@"errorCode"];
-        [responseDict setValue:error.domain forKey:@"errorDomain"];
-        [responseDict setValue:userInfo.description forKey:@"errorDescription"];
-        if (userInfo[FIRAuthErrorUserInfoNameKey]) {
-            [responseDict setValue:userInfo[FIRAuthErrorUserInfoNameKey] forKey:FIRAuthErrorUserInfoNameKey];
-        }
-        if (userInfo[FIRAuthErrorUserInfoEmailKey]) {
-            [responseDict setValue:userInfo[FIRAuthErrorUserInfoEmailKey] forKey:FIRAuthErrorUserInfoEmailKey];
-        }
-        if (userInfo[FIRAuthErrorUserInfoNameKey]) {
-            [responseDict setValue:userInfo[FIRAuthErrorUserInfoNameKey] forKey:FIRAuthErrorUserInfoNameKey];
-        }
+//         [responseDict setValue:@(error.code) forKey:@"errorCode"];
+//         [responseDict setValue:error.domain forKey:@"errorDomain"];
+//         [responseDict setValue:userInfo.description forKey:@"errorDescription"];
+//         if (userInfo[FIRAuthErrorUserInfoNameKey]) {
+//             [responseDict setValue:userInfo[FIRAuthErrorUserInfoNameKey] forKey:FIRAuthErrorUserInfoNameKey];
+//         }
+//         if (userInfo[FIRAuthErrorUserInfoEmailKey]) {
+//             [responseDict setValue:userInfo[FIRAuthErrorUserInfoEmailKey] forKey:FIRAuthErrorUserInfoEmailKey];
+//         }
+//         if (userInfo[FIRAuthErrorUserInfoNameKey]) {
+//             [responseDict setValue:userInfo[FIRAuthErrorUserInfoNameKey] forKey:FIRAuthErrorUserInfoNameKey];
+//         }
 
-        if (updatedCredential) {
-            NSMutableDictionary *updatedCredentialDict = [[NSMutableDictionary alloc] init];
-            if (updatedCredential.provider) {
-                [updatedCredentialDict setValue:updatedCredential.provider forKey:@"provider"];
-            }
-            if (updatedCredential.IDToken) {
-                [updatedCredentialDict setValue:updatedCredential.IDToken forKey:@"IDToken"];
-            }
-            NSNumber* key = [self saveAuthCredential:updatedCredential];
-            [updatedCredentialDict setValue:key forKey:@"id"];
-            [responseDict setValue:updatedCredentialDict forKey:@"updatedCredential"];
-        }
+//         if (updatedCredential) {
+//             NSMutableDictionary *updatedCredentialDict = [[NSMutableDictionary alloc] init];
+//             if (updatedCredential.provider) {
+//                 [updatedCredentialDict setValue:updatedCredential.provider forKey:@"provider"];
+//             }
+//             if (updatedCredential.IDToken) {
+//                 [updatedCredentialDict setValue:updatedCredential.IDToken forKey:@"IDToken"];
+//             }
+//             NSNumber* key = [self saveAuthCredential:updatedCredential];
+//             [updatedCredentialDict setValue:key forKey:@"id"];
+//             [responseDict setValue:updatedCredentialDict forKey:@"updatedCredential"];
+//         }
 
-        // TODO: Make messageAsDictionary work with error status- currently it returns undefined
-        NSString *jsonString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:responseDict options:0 error:nil] encoding:NSUTF8StringEncoding];
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:jsonString];
-    } else {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.description];
-    }
-    return pluginResult;
-}
+//         // TODO: Make messageAsDictionary work with error status- currently it returns undefined
+//         NSString *jsonString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:responseDict options:0 error:nil] encoding:NSUTF8StringEncoding];
+//         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:jsonString];
+//     } else {
+//         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.description];
+//     }
+//     return pluginResult;
+// }
 
-- (NSNumber*) saveAuthCredential: (FIRAuthCredential*) authCredential {
-    int id = [self generateId];
-    NSNumber* key = [NSNumber numberWithInt:id];
-    [authCredentials setObject:authCredential forKey:key];
-    return key;
-}
+// - (NSNumber*) saveAuthCredential: (FIRAuthCredential*) authCredential {
+//     int id = [self generateId];
+//     NSNumber* key = [NSNumber numberWithInt:id];
+//     [authCredentials setObject:authCredential forKey:key];
+//     return key;
+// }
 
-- (bool) isSignedIn {
-    return [FIRAuth auth].currentUser ? true : false;
-}
+// - (bool) isSignedIn {
+//     return [FIRAuth auth].currentUser ? true : false;
+// }
 
-- (bool) userNotSignedInError:(CDVInvokedUrlCommand *)command {
-    bool isError = ![self isSignedIn];
-    if(isError){
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"No user is currently signed"] callbackId:command.callbackId];    }
-    return isError;
-}
+// - (bool) userNotSignedInError:(CDVInvokedUrlCommand *)command {
+//     bool isError = ![self isSignedIn];
+//     if(isError){
+//         [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"No user is currently signed"] callbackId:command.callbackId];    }
+//     return isError;
+// }
 
-- (int) generateId {
-    int key = -1;
-    while (key < 0
-       || [authCredentials objectForKey:[NSNumber numberWithInt:key]] != nil
-       || [firestoreListeners objectForKey:[NSNumber numberWithInt:key]] != nil
-    ) {
-        key = arc4random_uniform(100000);
-    }
-    return key;
-}
+// - (int) generateId {
+//     int key = -1;
+//     while (key < 0
+//        || [authCredentials objectForKey:[NSNumber numberWithInt:key]] != nil
+//        || [firestoreListeners objectForKey:[NSNumber numberWithInt:key]] != nil
+//     ) {
+//         key = arc4random_uniform(100000);
+//     }
+//     return key;
+// }
 
 - (void) setPreferenceFlag:(NSString*) name flag:(BOOL)flag {
     [preferences setBool:flag forKey:name];
