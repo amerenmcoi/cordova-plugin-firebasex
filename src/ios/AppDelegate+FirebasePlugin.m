@@ -561,17 +561,17 @@ static __weak id <UNUserNotificationCenterDelegate> _prevUserNotificationCenterD
 //     return self.viewController.view.window;
 // }
 
-// - (bool) isContentAvailable:(NSDictionary*) userInfo {
-//     if(userInfo == nil) {
-//         return false;
-//     }
+- (bool) isContentAvailable:(NSDictionary*) userInfo {
+    if(userInfo == nil) {
+        return false;
+    }
 
-//     NSDictionary* aps = [userInfo objectForKey:@"aps"];
-//     if(aps == nil){
-//         return false;
-//     }
+    NSDictionary* aps = [userInfo objectForKey:@"aps"];
+    if(aps == nil){
+        return false;
+    }
     
-//     return ([aps objectForKey:@"'content-available'"] != nil && [[aps objectForKey:@"'content-available'"] isEqualToNumber:[NSNumber numberWithInt:1]])
-//         || ([aps objectForKey:@"content-available"] != nil && [[aps objectForKey:@"content-available"] isEqualToNumber:[NSNumber numberWithInt:1]]);
-// }
+    return ([aps objectForKey:@"'content-available'"] != nil && [[aps objectForKey:@"'content-available'"] isEqualToNumber:[NSNumber numberWithInt:1]])
+        || ([aps objectForKey:@"content-available"] != nil && [[aps objectForKey:@"content-available"] isEqualToNumber:[NSNumber numberWithInt:1]]);
+}
 @end
