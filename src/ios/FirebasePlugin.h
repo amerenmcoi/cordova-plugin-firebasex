@@ -47,14 +47,14 @@
 // Internals
 + (FirebasePlugin *) firebasePlugin;
 + (NSString*) appleSignInNonce;
-+ (void) setFirestore:(FIRFirestore*) firestoreInstance;
+//+ (void) setFirestore:(FIRFirestore*) firestoreInstance;
 - (void) handlePluginExceptionWithContext: (NSException*) exception :(CDVInvokedUrlCommand*)command;
 - (void) handlePluginExceptionWithoutContext: (NSException*) exception;
 - (void) _logError: (NSString*)msg;
 - (void) _logInfo: (NSString*)msg;
 - (void) _logMessage: (NSString*)msg;
 - (BOOL) _shouldEnableCrashlytics;
-- (NSNumber*) saveAuthCredential: (FIRAuthCredential *) authCredential;
+//- (NSNumber*) saveAuthCredential: (FIRAuthCredential *) authCredential;
 - (void)executeGlobalJavascript: (NSString*)jsString;
 
 - (void)createChannel:(CDVInvokedUrlCommand *)command;
