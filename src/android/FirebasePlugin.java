@@ -43,14 +43,14 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 // import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 
-// import com.google.android.gms.common.api.ApiException;
-// import com.google.android.gms.common.api.CommonStatusCodes;
-// import com.google.android.gms.common.api.GoogleApiClient;
-// import com.google.android.gms.tasks.Continuation;
-// import com.google.android.gms.tasks.OnCompleteListener;
-// import com.google.android.gms.tasks.OnFailureListener;
-// import com.google.android.gms.tasks.OnSuccessListener;
-// import com.google.android.gms.tasks.Task;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 // import com.google.firebase.FirebaseApp;
 // import com.google.firebase.Timestamp;
 // import com.google.firebase.analytics.FirebaseAnalytics;
@@ -118,18 +118,18 @@ import java.util.EnumMap;
 // Firebase PhoneAuth
 import java.util.concurrent.TimeUnit;
 
-// import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseTooManyRequestsException;
 // import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-// import com.google.firebase.FirebaseTooManyRequestsException;
 // import com.google.firebase.auth.PhoneAuthCredential;
 // import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-import com.google.gson.reflect.TypeToken;
+// import com.google.gson.Gson;
+// import com.google.gson.GsonBuilder;
+// import com.google.gson.JsonElement;
+// import com.google.gson.JsonPrimitive;
+// import com.google.gson.JsonSerializationContext;
+// import com.google.gson.JsonSerializer;
+// import com.google.gson.reflect.TypeToken;
 
 
 import static android.content.Context.MODE_PRIVATE;
@@ -141,7 +141,7 @@ public class FirebasePlugin extends CordovaPlugin {
     // private FirebaseCrashlytics firebaseCrashlytics;
     // private FirebaseFirestore firestore;
     // private FirebaseFunctions functions;
-    private Gson gson;
+    // private Gson gson;
     // private FirebaseAuth.AuthStateListener authStateListener;
     // private FirebaseAuth.IdTokenListener idTokenListener;
     // private boolean authStateChangeListenerInitialized = false;
@@ -251,15 +251,15 @@ public class FirebasePlugin extends CordovaPlugin {
                     // firestore = FirebaseFirestore.getInstance();
                     // functions = FirebaseFunctions.getInstance();
 
-                    gson = new GsonBuilder()
-                            .registerTypeAdapter(Double.class, new JsonSerializer<Double>() {
-                                public JsonElement serialize(Double src, Type typeOfSrc, JsonSerializationContext context) {
-                                    if (src.isNaN() || src.isInfinite())
-                                        return new JsonPrimitive(src.toString());
-                                    return new JsonPrimitive(src);
-                                }
-                            })
-                            .create();
+                    // gson = new GsonBuilder()
+                    //         .registerTypeAdapter(Double.class, new JsonSerializer<Double>() {
+                    //             public JsonElement serialize(Double src, Type typeOfSrc, JsonSerializationContext context) {
+                    //                 if (src.isNaN() || src.isInfinite())
+                    //                     return new JsonPrimitive(src.toString());
+                    //                 return new JsonPrimitive(src);
+                    //             }
+                    //         })
+                    //         .create();
 
                     if (extras != null && extras.size() > 1) {
                         if (FirebasePlugin.notificationStack == null) {
@@ -545,37 +545,37 @@ public class FirebasePlugin extends CordovaPlugin {
                     this.setDefaultChannel(callbackContext, args.getJSONObject(0));
                     break;
                 case "addDocumentToFirestoreCollection":
-                    this.addDocumentToFirestoreCollection(args, callbackContext);
+                    // this.addDocumentToFirestoreCollection(args, callbackContext);
                     break;
                 case "setDocumentInFirestoreCollection":
-                    this.setDocumentInFirestoreCollection(args, callbackContext);
+                    // this.setDocumentInFirestoreCollection(args, callbackContext);
                     break;
                 case "updateDocumentInFirestoreCollection":
-                    this.updateDocumentInFirestoreCollection(args, callbackContext);
+                    // this.updateDocumentInFirestoreCollection(args, callbackContext);
                     break;
                 case "deleteDocumentFromFirestoreCollection":
-                    this.deleteDocumentFromFirestoreCollection(args, callbackContext);
+                    // this.deleteDocumentFromFirestoreCollection(args, callbackContext);
                     break;
                 case "documentExistsInFirestoreCollection":
-                    this.documentExistsInFirestoreCollection(args, callbackContext);
+                    // this.documentExistsInFirestoreCollection(args, callbackContext);
                     break;
                 case "fetchDocumentInFirestoreCollection":
-                    this.fetchDocumentInFirestoreCollection(args, callbackContext);
+                    // this.fetchDocumentInFirestoreCollection(args, callbackContext);
                     break;
                 case "fetchFirestoreCollection":
-                    this.fetchFirestoreCollection(args, callbackContext);
+                    // this.fetchFirestoreCollection(args, callbackContext);
                     break;
                 case "listenToDocumentInFirestoreCollection":
-                    this.listenToDocumentInFirestoreCollection(args, callbackContext);
+                    // this.listenToDocumentInFirestoreCollection(args, callbackContext);
                     break;
                 case "listenToFirestoreCollection":
-                    this.listenToFirestoreCollection(args, callbackContext);
+                    // this.listenToFirestoreCollection(args, callbackContext);
                     break;
                 case "removeFirestoreListener":
-                    this.removeFirestoreListener(args, callbackContext);
+                    // this.removeFirestoreListener(args, callbackContext);
                     break;
                 case "functionsHttpsCallable":
-                    this.functionsHttpsCallable(args, callbackContext);
+                    // this.functionsHttpsCallable(args, callbackContext);
                     break;
                 case "grantCriticalPermission":
                 case "hasCriticalPermission":
@@ -627,7 +627,7 @@ public class FirebasePlugin extends CordovaPlugin {
 
     @Override
     public void onDestroy() {
-        FirebaseAuth.getInstance().removeAuthStateListener(authStateListener);
+        // FirebaseAuth.getInstance().removeAuthStateListener(authStateListener);
         instance = null;
         cordovaActivity = null;
         cordovaInterface = null;
@@ -991,7 +991,7 @@ public class FirebasePlugin extends CordovaPlugin {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 try {
-                    mFirebaseAnalytics.logEvent(name, bundle);
+                    // mFirebaseAnalytics.logEvent(name, bundle);
                     callbackContext.success();
                 } catch (Exception e) {
                     handleExceptionWithContext(e, callbackContext);
@@ -1003,38 +1003,14 @@ public class FirebasePlugin extends CordovaPlugin {
     private void logError(final CallbackContext callbackContext, final JSONArray args) throws JSONException {
         final String message = args.getString(0);
 
+        final String message = args.getString(0);
+
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 try {
-                    // if (isCrashlyticsEnabled()) {
-                        // We can optionally be passed a stack trace generated by stacktrace.js.
-                        // if (args.length() == 2) {
-                            // JSONArray stackTrace = args.getJSONArray(1);
-                            // StackTraceElement[] trace = new StackTraceElement[stackTrace.length()];
-                            // for (int i = 0; i < stackTrace.length(); i++) {
-                            //     JSONObject elem = stackTrace.getJSONObject(i);
-                            //     trace[i] = new StackTraceElement(
-                            //             "",
-                            //             elem.optString("functionName", "(anonymous function)"),
-                            //             elem.optString("fileName", "(unknown file)"),
-                            //             elem.optInt("lineNumber", -1)
-                            //     );
-                            // }
-
-                            // Exception e = new JavaScriptException(message);
-                            // e.setStackTrace(trace);
-                            // logExceptionToCrashlytics(e);
-                        } else {
-                            // logExceptionToCrashlytics(new JavaScriptException(message));
-                        }
-
-                        Log.e(TAG, message);
-                        callbackContext.success(1);
-                    } else {
-                        callbackContext.error("Cannot log error - Crashlytics collection is disabled");
-                    }
+                    Log.e(TAG, message);
+                    callbackContext.success(1);
                 } catch (Exception e) {
-                    // logExceptionToCrashlytics(e);
                     callbackContext.error(e.getMessage());
                 }
             }
@@ -1123,8 +1099,8 @@ public class FirebasePlugin extends CordovaPlugin {
             public void run() {
                 try {
                     Bundle bundle = new Bundle();
-                    bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, name);
-                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
+                    // bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, name);
+                    // mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
                     callbackContext.success();
                 } catch (Exception e) {
                     handleExceptionWithContext(e, callbackContext);
@@ -1137,7 +1113,7 @@ public class FirebasePlugin extends CordovaPlugin {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 try {
-                    mFirebaseAnalytics.setUserId(id);
+                    // mFirebaseAnalytics.setUserId(id);
                     callbackContext.success();
                 } catch (Exception e) {
                     handleExceptionWithContext(e, callbackContext);
@@ -1146,18 +1122,18 @@ public class FirebasePlugin extends CordovaPlugin {
         });
     }
 
-    private void setUserProperty(final CallbackContext callbackContext, final String name, final String value) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    mFirebaseAnalytics.setUserProperty(name, value);
-                    callbackContext.success();
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    // private void setUserProperty(final CallbackContext callbackContext, final String name, final String value) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 mFirebaseAnalytics.setUserProperty(name, value);
+    //                 callbackContext.success();
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
     private void fetch(CallbackContext callbackContext) {
         fetch(callbackContext, FirebaseRemoteConfig.getInstance().fetch());
@@ -2779,20 +2755,20 @@ public class FirebasePlugin extends CordovaPlugin {
         });
     }
 
-    private void setAnalyticsCollectionEnabled(final CallbackContext callbackContext, final boolean enabled) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    mFirebaseAnalytics.setAnalyticsCollectionEnabled(enabled);
-                    setPreference(ANALYTICS_COLLECTION_ENABLED, enabled);
-                    callbackContext.success();
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+    // private void setAnalyticsCollectionEnabled(final CallbackContext callbackContext, final boolean enabled) {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 mFirebaseAnalytics.setAnalyticsCollectionEnabled(enabled);
+    //                 setPreference(ANALYTICS_COLLECTION_ENABLED, enabled);
+    //                 callbackContext.success();
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //                 e.printStackTrace();
+    //             }
+    //         }
+    //     });
+    // }
 
     private void isAnalyticsCollectionEnabled(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
@@ -3131,441 +3107,441 @@ public class FirebasePlugin extends CordovaPlugin {
     //
     // Firestore
     //
-    private void addDocumentToFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    String jsonDoc = args.getString(0);
-                    String collection = args.getString(1);
-                    boolean timestamp = args.getBoolean(2);
+    // private void addDocumentToFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 String jsonDoc = args.getString(0);
+    //                 String collection = args.getString(1);
+    //                 boolean timestamp = args.getBoolean(2);
 
-                    Map<String, Object> docData = jsonStringToMap(jsonDoc);
+    //                 Map<String, Object> docData = jsonStringToMap(jsonDoc);
 
-                    if (timestamp) {
-                        docData.put("created", new Timestamp(new Date()));
-                        docData.put("lastUpdate", new Timestamp(new Date()));
-                    }
+    //                 if (timestamp) {
+    //                     docData.put("created", new Timestamp(new Date()));
+    //                     docData.put("lastUpdate", new Timestamp(new Date()));
+    //                 }
 
-                    firestore.collection(collection)
-                            .add(docData)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    callbackContext.success(documentReference.getId());
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    handleExceptionWithContext(e, callbackContext);
-                                }
-                            });
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    //                 firestore.collection(collection)
+    //                         .add(docData)
+    //                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+    //                             @Override
+    //                             public void onSuccess(DocumentReference documentReference) {
+    //                                 callbackContext.success(documentReference.getId());
+    //                             }
+    //                         })
+    //                         .addOnFailureListener(new OnFailureListener() {
+    //                             @Override
+    //                             public void onFailure(@NonNull Exception e) {
+    //                                 handleExceptionWithContext(e, callbackContext);
+    //                             }
+    //                         });
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    private void setDocumentInFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    String documentId = args.getString(0);
-                    String jsonDoc = args.getString(1);
-                    String collection = args.getString(2);
-                    boolean timestamp = args.getBoolean(3);
+    // private void setDocumentInFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 String documentId = args.getString(0);
+    //                 String jsonDoc = args.getString(1);
+    //                 String collection = args.getString(2);
+    //                 boolean timestamp = args.getBoolean(3);
 
-                    Map<String, Object> docData = jsonStringToMap(jsonDoc);
+    //                 Map<String, Object> docData = jsonStringToMap(jsonDoc);
 
-                    if (timestamp) {
-                        docData.put("lastUpdate", new Timestamp(new Date()));
-                    }
+    //                 if (timestamp) {
+    //                     docData.put("lastUpdate", new Timestamp(new Date()));
+    //                 }
 
-                    firestore.collection(collection).document(documentId)
-                            .set(docData)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    callbackContext.success();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    handleExceptionWithContext(e, callbackContext);
-                                }
-                            });
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    //                 firestore.collection(collection).document(documentId)
+    //                         .set(docData)
+    //                         .addOnSuccessListener(new OnSuccessListener<Void>() {
+    //                             @Override
+    //                             public void onSuccess(Void aVoid) {
+    //                                 callbackContext.success();
+    //                             }
+    //                         })
+    //                         .addOnFailureListener(new OnFailureListener() {
+    //                             @Override
+    //                             public void onFailure(@NonNull Exception e) {
+    //                                 handleExceptionWithContext(e, callbackContext);
+    //                             }
+    //                         });
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    private void updateDocumentInFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    String documentId = args.getString(0);
-                    String jsonDoc = args.getString(1);
-                    String collection = args.getString(2);
-                    boolean timestamp = args.getBoolean(3);
+    // private void updateDocumentInFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 String documentId = args.getString(0);
+    //                 String jsonDoc = args.getString(1);
+    //                 String collection = args.getString(2);
+    //                 boolean timestamp = args.getBoolean(3);
 
-                    Map<String, Object> docData = jsonStringToMap(jsonDoc);
+    //                 Map<String, Object> docData = jsonStringToMap(jsonDoc);
 
-                    if (timestamp) {
-                        docData.put("lastUpdate", new Timestamp(new Date()));
-                    }
+    //                 if (timestamp) {
+    //                     docData.put("lastUpdate", new Timestamp(new Date()));
+    //                 }
 
-                    firestore.collection(collection).document(documentId)
-                            .update(docData)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    callbackContext.success();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    handleExceptionWithContext(e, callbackContext);
-                                }
-                            });
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    //                 firestore.collection(collection).document(documentId)
+    //                         .update(docData)
+    //                         .addOnSuccessListener(new OnSuccessListener<Void>() {
+    //                             @Override
+    //                             public void onSuccess(Void aVoid) {
+    //                                 callbackContext.success();
+    //                             }
+    //                         })
+    //                         .addOnFailureListener(new OnFailureListener() {
+    //                             @Override
+    //                             public void onFailure(@NonNull Exception e) {
+    //                                 handleExceptionWithContext(e, callbackContext);
+    //                             }
+    //                         });
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    private void deleteDocumentFromFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    String documentId = args.getString(0);
-                    String collection = args.getString(1);
+    // private void deleteDocumentFromFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 String documentId = args.getString(0);
+    //                 String collection = args.getString(1);
 
-                    firestore.collection(collection).document(documentId)
-                            .delete()
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    callbackContext.success();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    handleExceptionWithContext(e, callbackContext);
-                                }
-                            });
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    //                 firestore.collection(collection).document(documentId)
+    //                         .delete()
+    //                         .addOnSuccessListener(new OnSuccessListener<Void>() {
+    //                             @Override
+    //                             public void onSuccess(Void aVoid) {
+    //                                 callbackContext.success();
+    //                             }
+    //                         })
+    //                         .addOnFailureListener(new OnFailureListener() {
+    //                             @Override
+    //                             public void onFailure(@NonNull Exception e) {
+    //                                 handleExceptionWithContext(e, callbackContext);
+    //                             }
+    //                         });
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    private void documentExistsInFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    String documentId = args.getString(0);
-                    String collection = args.getString(1);
+    // private void documentExistsInFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 String documentId = args.getString(0);
+    //                 String collection = args.getString(1);
 
-                    firestore.collection(collection).document(documentId)
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    try {
-                                        if (task.isSuccessful()) {
-                                            DocumentSnapshot document = task.getResult();
-                                            callbackContext.success(conformBooleanForPluginResult(document != null && document.getData() != null));
-                                        } else {
-                                            Exception e = task.getException();
-                                            if (e != null) {
-                                                handleExceptionWithContext(e, callbackContext);
-                                            }
-                                        }
-                                    } catch (Exception e) {
-                                        handleExceptionWithContext(e, callbackContext);
-                                    }
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    handleExceptionWithContext(e, callbackContext);
-                                }
-                            });
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    //                 firestore.collection(collection).document(documentId)
+    //                         .get()
+    //                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+    //                             @Override
+    //                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+    //                                 try {
+    //                                     if (task.isSuccessful()) {
+    //                                         DocumentSnapshot document = task.getResult();
+    //                                         callbackContext.success(conformBooleanForPluginResult(document != null && document.getData() != null));
+    //                                     } else {
+    //                                         Exception e = task.getException();
+    //                                         if (e != null) {
+    //                                             handleExceptionWithContext(e, callbackContext);
+    //                                         }
+    //                                     }
+    //                                 } catch (Exception e) {
+    //                                     handleExceptionWithContext(e, callbackContext);
+    //                                 }
+    //                             }
+    //                         })
+    //                         .addOnFailureListener(new OnFailureListener() {
+    //                             @Override
+    //                             public void onFailure(@NonNull Exception e) {
+    //                                 handleExceptionWithContext(e, callbackContext);
+    //                             }
+    //                         });
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    private void fetchDocumentInFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    String documentId = args.getString(0);
-                    String collection = args.getString(1);
+    // private void fetchDocumentInFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 String documentId = args.getString(0);
+    //                 String collection = args.getString(1);
 
-                    firestore.collection(collection).document(documentId)
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    try {
-                                        if (task.isSuccessful()) {
-                                            DocumentSnapshot document = task.getResult();
-                                            if (document != null && document.getData() != null) {
-                                                JSONObject jsonDoc = mapFirestoreDataToJsonObject(document.getData());
-                                                callbackContext.success(jsonDoc);
-                                            } else {
-                                                callbackContext.error("No document found in collection");
-                                            }
-                                        } else {
-                                            Exception e = task.getException();
-                                            if (e != null) {
-                                                handleExceptionWithContext(e, callbackContext);
-                                            }
-                                        }
-                                    } catch (Exception e) {
-                                        handleExceptionWithContext(e, callbackContext);
-                                    }
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    handleExceptionWithContext(e, callbackContext);
-                                }
-                            });
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    //                 firestore.collection(collection).document(documentId)
+    //                         .get()
+    //                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+    //                             @Override
+    //                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+    //                                 try {
+    //                                     if (task.isSuccessful()) {
+    //                                         DocumentSnapshot document = task.getResult();
+    //                                         if (document != null && document.getData() != null) {
+    //                                             JSONObject jsonDoc = mapFirestoreDataToJsonObject(document.getData());
+    //                                             callbackContext.success(jsonDoc);
+    //                                         } else {
+    //                                             callbackContext.error("No document found in collection");
+    //                                         }
+    //                                     } else {
+    //                                         Exception e = task.getException();
+    //                                         if (e != null) {
+    //                                             handleExceptionWithContext(e, callbackContext);
+    //                                         }
+    //                                     }
+    //                                 } catch (Exception e) {
+    //                                     handleExceptionWithContext(e, callbackContext);
+    //                                 }
+    //                             }
+    //                         })
+    //                         .addOnFailureListener(new OnFailureListener() {
+    //                             @Override
+    //                             public void onFailure(@NonNull Exception e) {
+    //                                 handleExceptionWithContext(e, callbackContext);
+    //                             }
+    //                         });
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    private void listenToDocumentInFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    String documentId = args.getString(0);
-                    String collection = args.getString(1);
-                    boolean includeMetadata = args.getBoolean(2);
+    // private void listenToDocumentInFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 String documentId = args.getString(0);
+    //                 String collection = args.getString(1);
+    //                 boolean includeMetadata = args.getBoolean(2);
 
-                    ListenerRegistration registration = firestore.collection(collection).document(documentId)
-                            .addSnapshotListener(includeMetadata ? MetadataChanges.INCLUDE : MetadataChanges.EXCLUDE, new EventListener<DocumentSnapshot>() {
-                                @Override
-                                public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                                    @Nullable FirebaseFirestoreException e3) {
-                                    try {
-                                        if (e3 == null) {
-                                            JSONObject document = new JSONObject();
-                                            document.put("eventType", "change");
+    //                 ListenerRegistration registration = firestore.collection(collection).document(documentId)
+    //                         .addSnapshotListener(includeMetadata ? MetadataChanges.INCLUDE : MetadataChanges.EXCLUDE, new EventListener<DocumentSnapshot>() {
+    //                             @Override
+    //                             public void onEvent(@Nullable DocumentSnapshot snapshot,
+    //                                                 @Nullable FirebaseFirestoreException e3) {
+    //                                 try {
+    //                                     if (e3 == null) {
+    //                                         JSONObject document = new JSONObject();
+    //                                         document.put("eventType", "change");
 
-                                            String source = snapshot != null && snapshot.getMetadata().hasPendingWrites() ? "local" : "remote";
-                                            document.put("source", source);
+    //                                         String source = snapshot != null && snapshot.getMetadata().hasPendingWrites() ? "local" : "remote";
+    //                                         document.put("source", source);
 
-                                            document.put("fromCache", snapshot.getMetadata().isFromCache());
+    //                                         document.put("fromCache", snapshot.getMetadata().isFromCache());
 
-                                            if (snapshot != null && snapshot.exists()) {
-                                                JSONObject jsonDoc = mapFirestoreDataToJsonObject(snapshot.getData());
-                                                document.put("snapshot", jsonDoc);
-                                            }
-                                            sendPluginResultAndKeepCallback(document, callbackContext);
-                                        } else {
-                                            handleExceptionWithContext(e3, callbackContext);
-                                        }
-                                    } catch (Exception e2) {
-                                        handleExceptionWithContext(e2, callbackContext);
-                                    }
-                                }
-                            });
+    //                                         if (snapshot != null && snapshot.exists()) {
+    //                                             JSONObject jsonDoc = mapFirestoreDataToJsonObject(snapshot.getData());
+    //                                             document.put("snapshot", jsonDoc);
+    //                                         }
+    //                                         sendPluginResultAndKeepCallback(document, callbackContext);
+    //                                     } else {
+    //                                         handleExceptionWithContext(e3, callbackContext);
+    //                                     }
+    //                                 } catch (Exception e2) {
+    //                                     handleExceptionWithContext(e2, callbackContext);
+    //                                 }
+    //                             }
+    //                         });
 
-                    String id = saveFirestoreListener(registration);
-                    JSONObject jsResult = new JSONObject();
-                    jsResult.put("eventType", "id");
-                    jsResult.put("id", id);
-                    sendPluginResultAndKeepCallback(jsResult, callbackContext);
-                } catch (Exception e1) {
-                    handleExceptionWithContext(e1, callbackContext);
-                }
-            }
-        });
-    }
+    //                 String id = saveFirestoreListener(registration);
+    //                 JSONObject jsResult = new JSONObject();
+    //                 jsResult.put("eventType", "id");
+    //                 jsResult.put("id", id);
+    //                 sendPluginResultAndKeepCallback(jsResult, callbackContext);
+    //             } catch (Exception e1) {
+    //                 handleExceptionWithContext(e1, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    private void fetchFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    String collection = args.getString(0);
-                    JSONArray filters = args.getJSONArray(1);
-                    Query query = firestore.collection(collection);
+    // private void fetchFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 String collection = args.getString(0);
+    //                 JSONArray filters = args.getJSONArray(1);
+    //                 Query query = firestore.collection(collection);
 
-                    if (filters != null) {
-                        query = applyFiltersToFirestoreCollectionQuery(filters, query);
-                    }
+    //                 if (filters != null) {
+    //                     query = applyFiltersToFirestoreCollectionQuery(filters, query);
+    //                 }
 
-                    query.get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    try {
-                                        if (task.isSuccessful()) {
-                                            JSONObject jsonDocs = new JSONObject();
-                                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                                jsonDocs.put(document.getId(), mapFirestoreDataToJsonObject(document.getData()));
-                                            }
-                                            callbackContext.success(jsonDocs);
-                                        } else {
-                                            handleExceptionWithContext(task.getException(), callbackContext);
-                                        }
-                                    } catch (Exception e) {
-                                        handleExceptionWithContext(e, callbackContext);
-                                    }
-                                }
-                            });
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    //                 query.get()
+    //                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    //                             @Override
+    //                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+    //                                 try {
+    //                                     if (task.isSuccessful()) {
+    //                                         JSONObject jsonDocs = new JSONObject();
+    //                                         for (QueryDocumentSnapshot document : task.getResult()) {
+    //                                             jsonDocs.put(document.getId(), mapFirestoreDataToJsonObject(document.getData()));
+    //                                         }
+    //                                         callbackContext.success(jsonDocs);
+    //                                     } else {
+    //                                         handleExceptionWithContext(task.getException(), callbackContext);
+    //                                     }
+    //                                 } catch (Exception e) {
+    //                                     handleExceptionWithContext(e, callbackContext);
+    //                                 }
+    //                             }
+    //                         });
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    private void listenToFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    String collection = args.getString(0);
-                    JSONArray filters = null;
-                    if (!args.isNull(1)) {
-                        filters = args.getJSONArray(1);
-                    }
-                    boolean includeMetadata = args.getBoolean(2);
+    // private void listenToFirestoreCollection(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 String collection = args.getString(0);
+    //                 JSONArray filters = null;
+    //                 if (!args.isNull(1)) {
+    //                     filters = args.getJSONArray(1);
+    //                 }
+    //                 boolean includeMetadata = args.getBoolean(2);
 
-                    Query query = firestore.collection(collection);
+    //                 Query query = firestore.collection(collection);
 
-                    if (filters != null) {
-                        query = applyFiltersToFirestoreCollectionQuery(filters, query);
-                    }
+    //                 if (filters != null) {
+    //                     query = applyFiltersToFirestoreCollectionQuery(filters, query);
+    //                 }
 
-                    ListenerRegistration registration = query
-                            .addSnapshotListener(includeMetadata ? MetadataChanges.INCLUDE : MetadataChanges.EXCLUDE, new EventListener<QuerySnapshot>() {
-                                @Override
-                                public void onEvent(@Nullable QuerySnapshot snapshots,
-                                                    @Nullable FirebaseFirestoreException e3) {
-                                    try {
-                                        if (e3 == null) {
-                                            JSONObject jsResult = new JSONObject();
-                                            jsResult.put("eventType", "change");
+    //                 ListenerRegistration registration = query
+    //                         .addSnapshotListener(includeMetadata ? MetadataChanges.INCLUDE : MetadataChanges.EXCLUDE, new EventListener<QuerySnapshot>() {
+    //                             @Override
+    //                             public void onEvent(@Nullable QuerySnapshot snapshots,
+    //                                                 @Nullable FirebaseFirestoreException e3) {
+    //                                 try {
+    //                                     if (e3 == null) {
+    //                                         JSONObject jsResult = new JSONObject();
+    //                                         jsResult.put("eventType", "change");
 
-                                            JSONObject documents = new JSONObject();
-                                            boolean hasDocuments = false;
-                                            for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                                                hasDocuments = true;
-                                                JSONObject document = new JSONObject();
+    //                                         JSONObject documents = new JSONObject();
+    //                                         boolean hasDocuments = false;
+    //                                         for (DocumentChange dc : snapshots.getDocumentChanges()) {
+    //                                             hasDocuments = true;
+    //                                             JSONObject document = new JSONObject();
 
-                                                switch (dc.getType()) {
-                                                    case ADDED:
-                                                        document.put("type", "new");
-                                                        break;
-                                                    case MODIFIED:
-                                                        document.put("type", "modified");
-                                                        break;
-                                                    case REMOVED:
-                                                        document.put("type", "removed");
-                                                        break;
-                                                    default:
-                                                        document.put("type", "metadata");
-                                                }
+    //                                             switch (dc.getType()) {
+    //                                                 case ADDED:
+    //                                                     document.put("type", "new");
+    //                                                     break;
+    //                                                 case MODIFIED:
+    //                                                     document.put("type", "modified");
+    //                                                     break;
+    //                                                 case REMOVED:
+    //                                                     document.put("type", "removed");
+    //                                                     break;
+    //                                                 default:
+    //                                                     document.put("type", "metadata");
+    //                                             }
 
-                                                QueryDocumentSnapshot documentSnapshot = dc.getDocument();
-                                                document.put("snapshot", mapFirestoreDataToJsonObject(documentSnapshot.getData()));
-                                                document.put("source", documentSnapshot.getMetadata().hasPendingWrites() ? "local" : "remote");
-                                                document.put("fromCache", documentSnapshot.getMetadata().isFromCache());
+    //                                             QueryDocumentSnapshot documentSnapshot = dc.getDocument();
+    //                                             document.put("snapshot", mapFirestoreDataToJsonObject(documentSnapshot.getData()));
+    //                                             document.put("source", documentSnapshot.getMetadata().hasPendingWrites() ? "local" : "remote");
+    //                                             document.put("fromCache", documentSnapshot.getMetadata().isFromCache());
 
-                                                documents.put(documentSnapshot.getId(), document);
-                                            }
-                                            if (hasDocuments) {
-                                                jsResult.put("documents", documents);
-                                            }
-                                            sendPluginResultAndKeepCallback(jsResult, callbackContext);
-                                        } else {
-                                            handleExceptionWithContext(e3, callbackContext);
-                                        }
-                                    } catch (Exception e2) {
-                                        handleExceptionWithContext(e2, callbackContext);
-                                    }
-                                }
-                            });
+    //                                             documents.put(documentSnapshot.getId(), document);
+    //                                         }
+    //                                         if (hasDocuments) {
+    //                                             jsResult.put("documents", documents);
+    //                                         }
+    //                                         sendPluginResultAndKeepCallback(jsResult, callbackContext);
+    //                                     } else {
+    //                                         handleExceptionWithContext(e3, callbackContext);
+    //                                     }
+    //                                 } catch (Exception e2) {
+    //                                     handleExceptionWithContext(e2, callbackContext);
+    //                                 }
+    //                             }
+    //                         });
 
-                    String id = saveFirestoreListener(registration);
-                    JSONObject jsResult = new JSONObject();
-                    jsResult.put("eventType", "id");
-                    jsResult.put("id", id);
-                    sendPluginResultAndKeepCallback(jsResult, callbackContext);
+    //                 String id = saveFirestoreListener(registration);
+    //                 JSONObject jsResult = new JSONObject();
+    //                 jsResult.put("eventType", "id");
+    //                 jsResult.put("id", id);
+    //                 sendPluginResultAndKeepCallback(jsResult, callbackContext);
 
-                } catch (Exception e1) {
-                    handleExceptionWithContext(e1, callbackContext);
-                }
-            }
-        });
-    }
+    //             } catch (Exception e1) {
+    //                 handleExceptionWithContext(e1, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    private Query applyFiltersToFirestoreCollectionQuery(JSONArray filters, Query query) throws JSONException {
-        for (int i = 0; i < filters.length(); i++) {
-            JSONArray filter = filters.getJSONArray(i);
-            switch (filter.getString(0)) {
-                case "where":
-                    String fieldName = filter.getString(1);
-                    String operator = filter.getString(2);
-                    switch (operator) {
-                        case "<":
-                            query = query.whereLessThan(fieldName, getFilterValueAsType(filter, 3, 4));
-                            break;
-                        case ">":
-                            query = query.whereGreaterThan(fieldName, getFilterValueAsType(filter, 3, 4));
-                            break;
-                        case "<=":
-                            query = query.whereLessThanOrEqualTo(fieldName, getFilterValueAsType(filter, 3, 4));
-                            break;
-                        case ">=":
-                            query = query.whereGreaterThanOrEqualTo(fieldName, getFilterValueAsType(filter, 3, 4));
-                            break;
-                        case "array-contains":
-                            query = query.whereArrayContains(fieldName, getFilterValueAsType(filter, 3, 4));
-                            break;
-                        default:
-                            query = query.whereEqualTo(fieldName, getFilterValueAsType(filter, 3, 4));
-                    }
-                    break;
-                case "orderBy":
-                    Direction direction = Direction.ASCENDING;
-                    if (Objects.equals(filter.getString(2), new String("desc"))) {
-                        direction = Direction.DESCENDING;
-                    }
-                    query = query.orderBy(filter.getString(1), direction);
-                    break;
-                case "startAt":
-                    query = query.startAt(getFilterValueAsType(filter, 1, 2));
-                    break;
-                case "endAt":
-                    query = query.endAt(getFilterValueAsType(filter, 1, 2));
-                    break;
-                case "limit":
-                    query = query.limit(filter.getLong(1));
-                    break;
-            }
-        }
-        return query;
-    }
+    // private Query applyFiltersToFirestoreCollectionQuery(JSONArray filters, Query query) throws JSONException {
+    //     for (int i = 0; i < filters.length(); i++) {
+    //         JSONArray filter = filters.getJSONArray(i);
+    //         switch (filter.getString(0)) {
+    //             case "where":
+    //                 String fieldName = filter.getString(1);
+    //                 String operator = filter.getString(2);
+    //                 switch (operator) {
+    //                     case "<":
+    //                         query = query.whereLessThan(fieldName, getFilterValueAsType(filter, 3, 4));
+    //                         break;
+    //                     case ">":
+    //                         query = query.whereGreaterThan(fieldName, getFilterValueAsType(filter, 3, 4));
+    //                         break;
+    //                     case "<=":
+    //                         query = query.whereLessThanOrEqualTo(fieldName, getFilterValueAsType(filter, 3, 4));
+    //                         break;
+    //                     case ">=":
+    //                         query = query.whereGreaterThanOrEqualTo(fieldName, getFilterValueAsType(filter, 3, 4));
+    //                         break;
+    //                     case "array-contains":
+    //                         query = query.whereArrayContains(fieldName, getFilterValueAsType(filter, 3, 4));
+    //                         break;
+    //                     default:
+    //                         query = query.whereEqualTo(fieldName, getFilterValueAsType(filter, 3, 4));
+    //                 }
+    //                 break;
+    //             case "orderBy":
+    //                 Direction direction = Direction.ASCENDING;
+    //                 if (Objects.equals(filter.getString(2), new String("desc"))) {
+    //                     direction = Direction.DESCENDING;
+    //                 }
+    //                 query = query.orderBy(filter.getString(1), direction);
+    //                 break;
+    //             case "startAt":
+    //                 query = query.startAt(getFilterValueAsType(filter, 1, 2));
+    //                 break;
+    //             case "endAt":
+    //                 query = query.endAt(getFilterValueAsType(filter, 1, 2));
+    //                 break;
+    //             case "limit":
+    //                 query = query.limit(filter.getLong(1));
+    //                 break;
+    //         }
+    //     }
+    //     return query;
+    // }
 
     private Object getFilterValueAsType(JSONArray filter, int valueIndex, int typeIndex) throws JSONException {
         Object typedValue;
@@ -3595,105 +3571,105 @@ public class FirebasePlugin extends CordovaPlugin {
     }
 
 
-    private void removeFirestoreListener(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    String id = args.getString(0);
-                    boolean removed = removeFirestoreListener(id);
-                    if (removed) {
-                        callbackContext.success();
-                    } else {
-                        callbackContext.error("Listener ID not found");
-                    }
-                } catch (Exception e1) {
-                    handleExceptionWithContext(e1, callbackContext);
-                }
-            }
-        });
-    }
+    // private void removeFirestoreListener(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 String id = args.getString(0);
+    //                 boolean removed = removeFirestoreListener(id);
+    //                 if (removed) {
+    //                     callbackContext.success();
+    //                 } else {
+    //                     callbackContext.error("Listener ID not found");
+    //                 }
+    //             } catch (Exception e1) {
+    //                 handleExceptionWithContext(e1, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
-    private String saveFirestoreListener(ListenerRegistration listenerRegistration) {
-        String id = this.generateId();
-        this.firestoreListeners.put(id, listenerRegistration);
-        return id;
-    }
+    // private String saveFirestoreListener(ListenerRegistration listenerRegistration) {
+    //     String id = this.generateId();
+    //     this.firestoreListeners.put(id, listenerRegistration);
+    //     return id;
+    // }
 
-    private boolean removeFirestoreListener(String id) {
-        boolean removed = false;
-        if (this.firestoreListeners.containsKey(id)) {
-            ListenerRegistration listenerRegistration = this.firestoreListeners.get(id);
-            if (listenerRegistration != null) {
-                listenerRegistration.remove();
-            }
-            this.firestoreListeners.remove(id);
-            removed = true;
-        }
-        return removed;
-    }
+    // private boolean removeFirestoreListener(String id) {
+    //     boolean removed = false;
+    //     if (this.firestoreListeners.containsKey(id)) {
+    //         ListenerRegistration listenerRegistration = this.firestoreListeners.get(id);
+    //         if (listenerRegistration != null) {
+    //             listenerRegistration.remove();
+    //         }
+    //         this.firestoreListeners.remove(id);
+    //         removed = true;
+    //     }
+    //     return removed;
+    // }
 
     //
     // Functions
     //
-    private void functionsHttpsCallable(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    String name = args.getString(0);
-                    functions.getHttpsCallable(name)
-                            .call(args.get(1))
-                            .addOnSuccessListener(new OnSuccessListener<HttpsCallableResult>() {
-                                @Override
-                                public void onSuccess(HttpsCallableResult httpsCallableResult) {
-                                    try {
-                                        if (httpsCallableResult.getData() instanceof Map) {
-                                            callbackContext.success(mapToJsonObject((Map<String, Object>) httpsCallableResult.getData()));
-                                        } else if (httpsCallableResult.getData() instanceof ArrayList) {
-                                            callbackContext.success(objectToJsonArray(httpsCallableResult.getData()));
-                                        } else if (httpsCallableResult.getData() instanceof Integer) {
-                                            callbackContext.success((int) httpsCallableResult.getData());
-                                        } else if (httpsCallableResult.getData() instanceof String) {
-                                            callbackContext.success((String) httpsCallableResult.getData());
-                                        } else {
-                                            callbackContext.success((byte[]) httpsCallableResult.getData());
-                                        }
-                                    } catch (Exception e) {
-                                        handleExceptionWithContext(e, callbackContext);
-                                    }
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    if (e instanceof FirebaseFunctionsException) {
-                                        this.onFailure((FirebaseFunctionsException) e);
-                                        return;
-                                    }
-                                    handleExceptionWithContext(e, callbackContext);
-                                }
+    // private void functionsHttpsCallable(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    //     cordova.getThreadPool().execute(new Runnable() {
+    //         public void run() {
+    //             try {
+    //                 String name = args.getString(0);
+    //                 functions.getHttpsCallable(name)
+    //                         .call(args.get(1))
+    //                         .addOnSuccessListener(new OnSuccessListener<HttpsCallableResult>() {
+    //                             @Override
+    //                             public void onSuccess(HttpsCallableResult httpsCallableResult) {
+    //                                 try {
+    //                                     if (httpsCallableResult.getData() instanceof Map) {
+    //                                         callbackContext.success(mapToJsonObject((Map<String, Object>) httpsCallableResult.getData()));
+    //                                     } else if (httpsCallableResult.getData() instanceof ArrayList) {
+    //                                         callbackContext.success(objectToJsonArray(httpsCallableResult.getData()));
+    //                                     } else if (httpsCallableResult.getData() instanceof Integer) {
+    //                                         callbackContext.success((int) httpsCallableResult.getData());
+    //                                     } else if (httpsCallableResult.getData() instanceof String) {
+    //                                         callbackContext.success((String) httpsCallableResult.getData());
+    //                                     } else {
+    //                                         callbackContext.success((byte[]) httpsCallableResult.getData());
+    //                                     }
+    //                                 } catch (Exception e) {
+    //                                     handleExceptionWithContext(e, callbackContext);
+    //                                 }
+    //                             }
+    //                         })
+    //                         .addOnFailureListener(new OnFailureListener() {
+    //                             @Override
+    //                             public void onFailure(@NonNull Exception e) {
+    //                                 if (e instanceof FirebaseFunctionsException) {
+    //                                     this.onFailure((FirebaseFunctionsException) e);
+    //                                     return;
+    //                                 }
+    //                                 handleExceptionWithContext(e, callbackContext);
+    //                             }
 
-                                void onFailure(@NonNull FirebaseFunctionsException e) {
-                                    if (e.getDetails() == null) {
-                                        handleExceptionWithContext(e, callbackContext);
-                                        return;
-                                    }
-                                    if (e.getDetails() instanceof String) {
-                                        callbackContext.error(e.getDetails().toString());
-                                    } else {
-                                        try {
-                                            callbackContext.error(mapToJsonObject((Map<String, Object>) e.getDetails()));
-                                        } catch (JSONException ex) {
-                                            handleExceptionWithContext(ex, callbackContext);
-                                        }
-                                    }
-                                }
-                            });
-                } catch (Exception e) {
-                    handleExceptionWithContext(e, callbackContext);
-                }
-            }
-        });
-    }
+    //                             void onFailure(@NonNull FirebaseFunctionsException e) {
+    //                                 if (e.getDetails() == null) {
+    //                                     handleExceptionWithContext(e, callbackContext);
+    //                                     return;
+    //                                 }
+    //                                 if (e.getDetails() instanceof String) {
+    //                                     callbackContext.error(e.getDetails().toString());
+    //                                 } else {
+    //                                     try {
+    //                                         callbackContext.error(mapToJsonObject((Map<String, Object>) e.getDetails()));
+    //                                     } catch (JSONException ex) {
+    //                                         handleExceptionWithContext(ex, callbackContext);
+    //                                     }
+    //                                 }
+    //                             }
+    //                         });
+    //             } catch (Exception e) {
+    //                 handleExceptionWithContext(e, callbackContext);
+    //             }
+    //         }
+    //     });
+    // }
 
     //
     // Installations
@@ -4119,109 +4095,109 @@ public class FirebasePlugin extends CordovaPlugin {
         }
     }
 
-    private static class AuthStateListener implements FirebaseAuth.AuthStateListener {
-        @Override
-        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-            try {
-                if (!FirebasePlugin.instance.authStateChangeListenerInitialized) {
-                    FirebasePlugin.instance.authStateChangeListenerInitialized = true;
-                } else {
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    FirebasePlugin.instance.executeGlobalJavascript(JS_GLOBAL_NAMESPACE + "_onAuthStateChange(" + (user != null ? "true" : "false") + ")");
-                }
-            } catch (Exception e) {
-                handleExceptionWithoutContext(e);
-            }
-        }
-    }
+    // private static class AuthStateListener implements FirebaseAuth.AuthStateListener {
+    //     @Override
+    //     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+    //         try {
+    //             if (!FirebasePlugin.instance.authStateChangeListenerInitialized) {
+    //                 FirebasePlugin.instance.authStateChangeListenerInitialized = true;
+    //             } else {
+    //                 FirebaseUser user = firebaseAuth.getCurrentUser();
+    //                 FirebasePlugin.instance.executeGlobalJavascript(JS_GLOBAL_NAMESPACE + "_onAuthStateChange(" + (user != null ? "true" : "false") + ")");
+    //             }
+    //         } catch (Exception e) {
+    //             handleExceptionWithoutContext(e);
+    //         }
+    //     }
+    // }
 
-    private static class IdTokenListener implements FirebaseAuth.IdTokenListener {
-        private int idTokenNotifyRetryCount = 0;
-        @Override
-        public void onIdTokenChanged(@NonNull FirebaseAuth firebaseAuth) {
-            // Use a listener-scoped retry counter so multiple listeners or instances don't share a global budget
-            FirebasePlugin plugin = FirebasePlugin.instance;
+    // private static class IdTokenListener implements FirebaseAuth.IdTokenListener {
+    //     private int idTokenNotifyRetryCount = 0;
+    //     @Override
+    //     public void onIdTokenChanged(@NonNull FirebaseAuth firebaseAuth) {
+    //         // Use a listener-scoped retry counter so multiple listeners or instances don't share a global budget
+    //         FirebasePlugin plugin = FirebasePlugin.instance;
 
-            if (plugin == null) {
-                if (this.idTokenNotifyRetryCount < ID_TOKEN_NOTIFY_MAX_RETRIES) {
-                    Log.w(TAG, "Plugin is not ready, retry " + (this.idTokenNotifyRetryCount + 1) + "/" + ID_TOKEN_NOTIFY_MAX_RETRIES + " after 50ms");
-                    this.idTokenNotifyRetryCount++;
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> onIdTokenChanged(firebaseAuth), 50);
-                } else {
-                    Log.e(TAG, "Plugin still not initialized after " + ID_TOKEN_NOTIFY_MAX_RETRIES + " retries");
-                }
-                return;
-            }
-            // reset retry count on success
-            this.idTokenNotifyRetryCount = 0;
-            try {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                user.getIdToken(true).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
-                    @Override
-                    public void onSuccess(GetTokenResult result) {
-                        try {
-                            String idToken = result.getToken();
-                            if (idToken != null && idToken.equals(instance.currentIdToken)) {
-                                return;
-                            }
-                            instance.currentIdToken = idToken;
-                            String providerId = result.getSignInProvider();
-                            FirebasePlugin.instance.executeGlobalJavascript(JS_GLOBAL_NAMESPACE + "_onAuthIdTokenChange({\"idToken\":\"" + idToken + "\",\"providerId\":\"" + providerId + "\"})");
-                        } catch (Exception e) {
-                            FirebasePlugin.instance.executeGlobalJavascript(JS_GLOBAL_NAMESPACE + "_onAuthIdTokenChange()");
-                        }
-                    }
+    //         if (plugin == null) {
+    //             if (this.idTokenNotifyRetryCount < ID_TOKEN_NOTIFY_MAX_RETRIES) {
+    //                 Log.w(TAG, "Plugin is not ready, retry " + (this.idTokenNotifyRetryCount + 1) + "/" + ID_TOKEN_NOTIFY_MAX_RETRIES + " after 50ms");
+    //                 this.idTokenNotifyRetryCount++;
+    //                 new Handler(Looper.getMainLooper()).postDelayed(() -> onIdTokenChanged(firebaseAuth), 50);
+    //             } else {
+    //                 Log.e(TAG, "Plugin still not initialized after " + ID_TOKEN_NOTIFY_MAX_RETRIES + " retries");
+    //             }
+    //             return;
+    //         }
+    //         // reset retry count on success
+    //         this.idTokenNotifyRetryCount = 0;
+    //         try {
+    //             FirebaseUser user = firebaseAuth.getCurrentUser();
+    //             user.getIdToken(true).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
+    //                 @Override
+    //                 public void onSuccess(GetTokenResult result) {
+    //                     try {
+    //                         String idToken = result.getToken();
+    //                         if (idToken != null && idToken.equals(instance.currentIdToken)) {
+    //                             return;
+    //                         }
+    //                         instance.currentIdToken = idToken;
+    //                         String providerId = result.getSignInProvider();
+    //                         FirebasePlugin.instance.executeGlobalJavascript(JS_GLOBAL_NAMESPACE + "_onAuthIdTokenChange({\"idToken\":\"" + idToken + "\",\"providerId\":\"" + providerId + "\"})");
+    //                     } catch (Exception e) {
+    //                         FirebasePlugin.instance.executeGlobalJavascript(JS_GLOBAL_NAMESPACE + "_onAuthIdTokenChange()");
+    //                     }
+    //                 }
 
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        FirebasePlugin.instance.executeGlobalJavascript(JS_GLOBAL_NAMESPACE + "_onAuthIdTokenChange()");
-                    }
-                });
-            } catch (Exception e) {
-                FirebasePlugin.instance.executeGlobalJavascript(JS_GLOBAL_NAMESPACE + "_onAuthIdTokenChange()");
-            }
-        }
-    }
+    //             }).addOnFailureListener(new OnFailureListener() {
+    //                 @Override
+    //                 public void onFailure(@NonNull Exception e) {
+    //                     FirebasePlugin.instance.executeGlobalJavascript(JS_GLOBAL_NAMESPACE + "_onAuthIdTokenChange()");
+    //                 }
+    //             });
+    //         } catch (Exception e) {
+    //             FirebasePlugin.instance.executeGlobalJavascript(JS_GLOBAL_NAMESPACE + "_onAuthIdTokenChange()");
+    //         }
+    //     }
+    // }
 
-    private Map<String, Object> jsonStringToMap(String jsonString) throws JSONException {
-        Type type = new TypeToken<Map<String, Object>>() {
-        }.getType();
-        return gson.fromJson(jsonString, type);
-    }
+    // private Map<String, Object> jsonStringToMap(String jsonString) throws JSONException {
+    //     Type type = new TypeToken<Map<String, Object>>() {
+    //     }.getType();
+    //     return gson.fromJson(jsonString, type);
+    // }
 
-    private JSONObject mapFirestoreDataToJsonObject(Map<String, Object> map) throws JSONException {
-        map = sanitiseFirestoreHashMap(map);
-        return mapToJsonObject(map);
-    }
+    // private JSONObject mapFirestoreDataToJsonObject(Map<String, Object> map) throws JSONException {
+    //     map = sanitiseFirestoreHashMap(map);
+    //     return mapToJsonObject(map);
+    // }
 
-    private Map<String, Object> sanitiseFirestoreHashMap(Map<String, Object> map) {
-        Set<String> keys = map.keySet();
-        for (String key : keys) {
-            Object value = map.get(key);
-            if (value instanceof DocumentReference) {
-                map.put(key, ((DocumentReference) value).getPath());
-            } else if (value instanceof HashMap) {
-                map.put(key, sanitiseFirestoreHashMap((Map<String, Object>) value));
-            }
-        }
-        return map;
-    }
+    // private Map<String, Object> sanitiseFirestoreHashMap(Map<String, Object> map) {
+    //     Set<String> keys = map.keySet();
+    //     for (String key : keys) {
+    //         Object value = map.get(key);
+    //         if (value instanceof DocumentReference) {
+    //             map.put(key, ((DocumentReference) value).getPath());
+    //         } else if (value instanceof HashMap) {
+    //             map.put(key, sanitiseFirestoreHashMap((Map<String, Object>) value));
+    //         }
+    //     }
+    //     return map;
+    // }
 
-    private JSONObject mapToJsonObject(Map<String, Object> map) throws JSONException {
-        String jsonString = gson.toJson(map);
-        return new JSONObject(jsonString);
-    }
+    // private JSONObject mapToJsonObject(Map<String, Object> map) throws JSONException {
+    //     String jsonString = gson.toJson(map);
+    //     return new JSONObject(jsonString);
+    // }
 
-    private JSONObject objectToJsonObject(Object object) throws JSONException {
-        String jsonString = gson.toJson(object);
-        return new JSONObject(jsonString);
-    }
+    // private JSONObject objectToJsonObject(Object object) throws JSONException {
+    //     String jsonString = gson.toJson(object);
+    //     return new JSONObject(jsonString);
+    // }
 
-    private JSONArray objectToJsonArray(Object object) throws JSONException {
-        String jsonString = gson.toJson(object);
-        return new JSONArray(jsonString);
-    }
+    // private JSONArray objectToJsonArray(Object object) throws JSONException {
+    //     String jsonString = gson.toJson(object);
+    //     return new JSONArray(jsonString);
+    // }
 
     // private void logMessageToCrashlytics(String message) {
     //     if (isCrashlyticsEnabled()) {
@@ -4323,16 +4299,16 @@ public class FirebasePlugin extends CordovaPlugin {
         }
     }
 
-    private boolean isUserSignedIn() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        return user != null;
-    }
+    // private boolean isUserSignedIn() {
+    //     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    //     return user != null;
+    // }
 
-    private boolean userNotSignedInError(CallbackContext callbackContext) {
-        boolean signedIn = isUserSignedIn();
-        if (!signedIn) {
-            callbackContext.error("No user is currently signed");
-        }
-        return signedIn;
-    }
+    // private boolean userNotSignedInError(CallbackContext callbackContext) {
+    //     boolean signedIn = isUserSignedIn();
+    //     if (!signedIn) {
+    //         callbackContext.error("No user is currently signed");
+    //     }
+    //     return signedIn;
+    // }
 }
