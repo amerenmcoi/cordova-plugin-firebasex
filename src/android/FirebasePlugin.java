@@ -45,7 +45,7 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.common.api.GoogleApiClient;
+// import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -307,7 +307,7 @@ public class FirebasePlugin extends CordovaPlugin {
         try {
             switch (action) {
                 case "getId":
-                    this.getInstallationId(args, callbackContext);
+                    // this.getInstallationId(args, callbackContext);
                     break;
                 case "getToken":
                     this.getToken(args, callbackContext);
@@ -622,7 +622,7 @@ public class FirebasePlugin extends CordovaPlugin {
         FirebasePlugin.notificationCallbackContext = null;
         FirebasePlugin.tokenRefreshCallbackContext = null;
         FirebasePlugin.activityResultCallbackContext = null;
-        FirebasePlugin.authResultCallbackContext = null;
+        // FirebasePlugin.authResultCallbackContext = null;
     }
 
     @Override
@@ -1001,8 +1001,6 @@ public class FirebasePlugin extends CordovaPlugin {
     // }
 
     private void logError(final CallbackContext callbackContext, final JSONArray args) throws JSONException {
-        final String message = args.getString(0);
-
         final String message = args.getString(0);
 
         cordova.getThreadPool().execute(new Runnable() {
